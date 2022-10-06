@@ -1,6 +1,5 @@
 // Estructuras de Datos y Algoritmos - Curso 2022
 // Tecnologo en Informatica FIng - DGETP - UTEC
-//
 // Trabajo Obligatorio
 // bd.c
 // Modulo de Implementación de Base de Datos.
@@ -8,24 +7,42 @@
 #include <iostream>
 
 #include "bd.h"
+#include "tabla.h"
+#include "tabla.cpp"
+#include <string.h>
 
 using namespace std;
 
 struct nodo_bd
 {
-	//
+	tabla t;
+	bd sig;
 };
 
 bd createBD()
 {
-	//
+	// Crea la base de datos vacia.
 	return NULL;
 }
 
 TipoRet createTable(bd &bd, char *nombreTabla)
 {
+	if (bd != NULL)
+	{
+		bd iter = bd;
+		do
+		{
+			if (strcmp(nombreTabla(bd->t), nombreTabla) == 0)
+			{
+				cout << "Nombre de tabla ya existente" << endl;
+				return ERROR;
+			}
+			iter = iter->sig;
+		} while (iter->sig != NULL);
+		bd->t = crearTabla(nombreTabla);
+	}
 	// cout << " - createTable " << nombreTabla << endl;;
-	return NO_IMPLEMENTADA;
+	return OK;
 }
 
 TipoRet dropTable(bd &bd, char *nombreTabla)

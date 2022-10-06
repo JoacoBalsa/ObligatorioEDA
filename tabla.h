@@ -1,0 +1,13 @@
+#ifndef TABLA_H
+#define TABLA_H
+#include "define.h"
+
+typedef struct nodo_tabla *tabla;
+
+tabla crearTabla(char *nombre);
+// Crea una tabla vacia.
+
+char *nombreTabla(tabla t);
+// Retorna el nombre de la tabla.
+
+#endif
