@@ -5,18 +5,18 @@
 // Modulo de Implementación de Base de Datos.
 
 #include <iostream>
-
 #include "bd.h"
 #include "tabla.h"
 #include "tabla.cpp"
+#include "tablas.h"
+#include "tablas.cpp"
 #include <string.h>
 
 using namespace std;
 
 struct nodo_bd
 {
-	tabla t;
-	bd sig;
+	tablas ts;
 };
 
 bd createBD()
@@ -27,21 +27,8 @@ bd createBD()
 
 TipoRet createTable(bd &bd, char *nombreTabla)
 {
-	if (bd != NULL)
-	{
-		bd iter = bd;
-		do
-		{
-			if (strcmp(nombreTabla(bd->t), nombreTabla) == 0)
-			{
-				cout << "Nombre de tabla ya existente" << endl;
-				return ERROR;
-			}
-			iter = iter->sig;
-		} while (iter->sig != NULL);
-		bd->t = crearTabla(nombreTabla);
-	}
-	// cout << " - createTable " << nombreTabla << endl;;
+	// cout << " - createTable " << nombreTabla << endl;
+	bd->t = crearTabla(bd->t, nombreTabla);
 	return OK;
 }
 

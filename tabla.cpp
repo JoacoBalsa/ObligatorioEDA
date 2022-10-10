@@ -1,6 +1,9 @@
-#include <tabla.h>
+#include "tabla.h"
 #include "define.h"
 #include <string.h>
+#include <iostream>
+
+using namespace std;
 
 #define MAX_NOMBRE 20
 
@@ -19,17 +22,24 @@ struct nodo_tabla
 {
     char *nom;
     //  columnas columna (implementar)
+    // Tupla (implementar)
 };
 
-tabla crearTabla(char *nombre)
+TipoRet crearTabla(tabla &t, char *nombre)
 {
     //  Crea una tabla individual vacia con el nombre pasado por parametro.
-
-    tabla t = new (nodo_tabla);
-    t->nom = new char[MAX_NOMBRE];
-    strcpy(t->nom, nombre);
-    //  Columnas: debe implementarse
-    return t;
+    //  Pre: la base de datos tiene que estar creada.
+    if (t == NULL)
+    {
+        t = new (nodo_tabla);
+        strcpy(t->nom, nombre);
+        return OK;
+    }
+    else
+    {
+        cout << "No se puede sobreescribir la tabla" << endl;
+        return ERROR;
+    }
 }
 
 // Capaz es auxiliar

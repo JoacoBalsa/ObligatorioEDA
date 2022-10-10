@@ -4,7 +4,7 @@
 
 typedef struct nodo_tabla *tabla;
 
-tabla crearTabla(char *nombre);
+TipoRet crearTabla(tabla &t, char *nombre);
 // Crea una tabla vacia.
 
 char *nombreTabla(tabla t);
