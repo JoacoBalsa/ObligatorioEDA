@@ -142,4 +142,8 @@ TipoRet redo(bd &bd);
 bd destroyBD(bd &bd);
 // Destruye bd y libera la memoria asociada.
 
+bool colRep(bd &bd, char *nombCol);
+//  Retorna true si ya hay una columna con nombre: nombCol en la tabla.
+// Pre: bd y tabla no vacias.
+
 #endif

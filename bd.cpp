@@ -10,6 +10,8 @@
 #include "tabla.cpp"
 #include "tablas.h"
 #include "tablas.cpp"
+#include "columnas.h"
+#include "columnas.cpp"
 #include <string.h>
 
 using namespace std;
@@ -18,6 +20,8 @@ struct nodo_bd
 {
 	tablas ts;
 };
+
+/*--------------------------------------------------------------------PRIMERA ENTREGA--------------------------------------------------------------------*/
 
 bd createBD()
 {
@@ -28,7 +32,7 @@ bd createBD()
 TipoRet createTable(bd &bd, char *nombreTabla)
 {
 	// cout << " - createTable " << nombreTabla << endl;
-	bd->t = crearTabla(bd->t, nombreTabla);
+	crearTabla(bd->ts->t, nombreTabla);
 	return OK;
 }
 
@@ -41,7 +45,43 @@ TipoRet dropTable(bd &bd, char *nombreTabla)
 TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol)
 {
 	// cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;;
-	return NO_IMPLEMENTADA;
+	// Fijarse si nombreTabla coincide con la tabla en la que quiero insertar la columna y demas cosas.
+	if(strcmp(bd->ts->t->nom, nombreTabla) == 0){ // Se fija el nombre de la tabla
+		if (!colRep(bd, NombreCol)){
+			if(strcmp(tipoCol,"integer") == 0 || strcmp(tipoCol,"string") == 0){ // Se fija el tipo de la columna
+				if (strcmp(calificadorCol, "PRIMARY_KEY") == 0)
+				{
+					addColumna(bd, nombreTabla, NombreCol, tipoCol, PRIMARY_KEY);
+				}
+				else if (strcmp(calificadorCol, "NOT_EMPTY") == 0)
+				{
+					addColumna(bd, nombreTabla, NombreCol, tipoCol, NOT_EMPTY);
+				}
+				else if (strcmp(calificadorCol, "ANY") == 0)
+				{
+					addColumna(bd, nombreTabla, NombreCol, tipoCol, ANY);
+				}
+				else
+				{
+					cout << "Calificador de columna no valido" << endl;
+					return ERROR;
+				}
+			}
+			else{
+				cout << "El tipo de columna no se especifica o no corresponde" << endl;
+				return ERROR;
+			}
+		}
+		else{
+			cout << "Ya existe una columna con ese nombre" << endl;
+			return ERROR;
+		}
+	}
+	else{
+		cout << "No existe una tabla con ese nombre o no se especifica el nombre" << endl;
+		return ERROR;
+	}
+	return OK;
 }
 
 TipoRet dropCol(bd &bd, char *nombreTabla, char *NombreCol)
@@ -73,6 +113,9 @@ TipoRet update(bd &bd, char *nombreTabla, char *condicionModificar, char *column
 	// cout << " - update " << nombreTabla << " " << condicionModificar << " " << columnaModificar << " " << valorModificar << endl;
 	return NO_IMPLEMENTADA;
 }
+
+/*--------------------------------------------------------------------HASTA ACA PRIMERA ENTREGA--------------------------------------------------------------------*/
+
 
 TipoRet selectWhere(bd &bd, char *nomTabla1, char *condicion, char *nomTabla2)
 {
@@ -110,6 +153,7 @@ TipoRet minus_(bd &bd, char *nombreTabla1, char *nombreTabla2, char *nombreTabla
 	return NO_IMPLEMENTADA;
 }
 
+/*--------------------------------------------------------------------PRIMERA ENTREGA--------------------------------------------------------------------*/
 TipoRet printdatatable(bd bd, char *NombreTabla)
 {
 	// cout << " - printdatatable " << NombreTabla << endl;
@@ -127,6 +171,7 @@ TipoRet printMetadata(bd bd, char *nombreTabla)
 	// cout << " - printMetadata " << nombreTabla << endl;
 	return NO_IMPLEMENTADA;
 }
+/*--------------------------------------------------------------------HASTA ACA PRIMERA ENTREGA--------------------------------------------------------------------*/
 
 TipoRet undo(bd &bd)
 {
@@ -144,4 +189,19 @@ bd destroyBD(bd &bd)
 {
 	//
 	return NULL;
+}
+
+//Auxiliar
+bool colRep(bd &bd, char *nombCol)
+//  Retorna true si ya hay una columna con nombre: nombCol en la tabla.
+// Pre: bd y tabla no vacias.
+{
+	columna iter = bd->ts->t->col;
+    while(iter->sig != NULL){
+		if(strcmp(iter->nombreCol, nombCol) == 0)
+			return true;
+		else
+			iter = iter->sig;
+	}
+	return false;
 }

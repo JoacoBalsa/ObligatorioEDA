@@ -10,8 +10,20 @@
 
 #define MAX_COMANDO 128
 
-enum _retorno{OK, ERROR, NO_IMPLEMENTADA};
+enum _retorno
+{
+    OK,
+    ERROR,
+    NO_IMPLEMENTADA
+};
 typedef enum _retorno TipoRet;
 
+enum _calificador
+{
+    NOT_EMPTY,
+    PRIMARY_KEY,
+    ANY
+};
+typedef enum _calificador CalCol;
 
 #endif

@@ -21,16 +21,17 @@ using namespace std;
 struct nodo_tablas
 {
     tabla t;
-    tablas sig;
+    tablas izq;
+    tablas der;
 };
 
-TipoRet crearTablas(tablas &ts, char *nombre)
+/*TipoRet crearTablas(tablas &ts, char *nombre)
 // Crea una tabla y la conecta con las anteriores.
 {
     if (!nombreExistente(ts, nombre)) // Funcion a implementar
     {
         tablas iter = ts;
-        while (iter->t != NULL)
+        while (iter->t != NULL) // Para insertar la tabla al final
         {
             iter = iter->sig;
         }
@@ -56,4 +57,4 @@ bool nombreExistente(tablas ts, char *nombre)
         else
             return nombreExistente(ts->sig, nombre);
     }
-}
+}*/

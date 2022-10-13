@@ -1,5 +1,6 @@
 #include "tabla.h"
 #include "define.h"
+#include "columnas.h"
 #include <string.h>
 #include <iostream>
 
@@ -21,8 +22,7 @@ using namespace std;
 struct nodo_tabla
 {
     char *nom;
-    //  columnas columna (implementar)
-    // Tupla (implementar)
+    columna col;
 };
 
 TipoRet crearTabla(tabla &t, char *nombre)
