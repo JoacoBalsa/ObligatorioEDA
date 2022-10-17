@@ -4,10 +4,11 @@
 
 typedef struct nodo_tablas *tablas;
 
-tablas crearTabla(char *nombre);
-// Crea una tabla vacia.
+void crearTablas(tablas &ts, char *nombreTabla);
+//Se mete a ts y crea una tabla t
 
-bool nombreExistente(tablas ts, char *nombre);
-// Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.
+char *nombreTabla_Tablas(tablas ts);
+//Busca en una tabla t dentro de ts y retorna su nombre
 
+bool colRep_ts(tablas ts, char *nombCol);
 #endif

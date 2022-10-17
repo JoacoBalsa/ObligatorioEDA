@@ -21,9 +21,21 @@ using namespace std;
 struct nodo_tablas
 {
     tabla t;
-    tablas izq;
-    tablas der;
+    /*tablas izq;
+    tablas der;*/
 };
+
+void crearTablas(tablas &ts, char *nombreTabla){
+    crearTabla(ts->t, nombreTabla);
+}
+
+char *nombreTabla_Tablas(tablas ts){
+    return nombreTabla(ts->t);
+}
+
+bool colRep_ts(tablas ts, char *nombCol){
+    return colRep_tabla(ts->t, nombCol);
+}
 
 /*TipoRet crearTablas(tablas &ts, char *nombre)
 // Crea una tabla y la conecta con las anteriores.
@@ -45,16 +57,5 @@ struct nodo_tablas
     }
 }
 
-bool nombreExistente(tablas ts, char *nombre)
-{
-    // Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.
-    if (ts == NULL)
-        return false;
-    else
-    {
-        if (strcmp(ts->t->nom, nombre) == 0)
-            return true;
-        else
-            return nombreExistente(ts->sig, nombre);
-    }
+
 }*/

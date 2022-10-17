@@ -10,4 +10,6 @@ TipoRet crearTabla(tabla &t, char *nombre);
 char *nombreTabla(tabla t);
 // Retorna el nombre de la tabla.
 
+bool colRep_tabla(tabla t, char *nomCol);
+
 #endif

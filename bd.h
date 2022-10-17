@@ -9,6 +9,7 @@
 // Modulo de Definición de Base de Datos.
 
 #include "define.h"
+#include "tablas.h"
 
 typedef struct nodo_bd *bd;
 
@@ -142,8 +143,14 @@ TipoRet redo(bd &bd);
 bd destroyBD(bd &bd);
 // Destruye bd y libera la memoria asociada.
 
-bool colRep(bd &bd, char *nombCol);
+
+//------------------------------------------------Auxiliar------------------------------------------------
+
+bool colRep_bd(bd &bd, char *nombCol);
 //  Retorna true si ya hay una columna con nombre: nombCol en la tabla.
 // Pre: bd y tabla no vacias.
+
+/*bool nombreExistente(tablas ts, char *nombre);
+// Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.*/
 
 #endif

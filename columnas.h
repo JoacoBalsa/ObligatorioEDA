@@ -11,7 +11,10 @@ typedef struct nodo_columna *columna;
 columna addColumna(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificador);
 //  Crea la columna vacia.
 
-bool colRep(bd &bd, char *nomTab, char *nombCol);
-//  Se fija que no haya otra columna con el nombre nomCol
+char *nombreColumna(columna col);
+//  Retorna el nombre de columna.
+
+bool colRep(columna col, char *nombCol);
+//  Retorna true si la columna existe, false en caso contrario.
 
 #endif

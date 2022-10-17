@@ -7,11 +7,12 @@
 #include <iostream>
 #include "bd.h"
 #include "tabla.h"
-#include "tabla.cpp"
 #include "tablas.h"
-#include "tablas.cpp"
+//#include "tabla.cpp"
+//#include "tablas.cpp"
 #include "columnas.h"
-#include "columnas.cpp"
+//#include "columnas.cpp"
+#include "define.h"
 #include <string.h>
 
 using namespace std;
@@ -21,7 +22,7 @@ struct nodo_bd
 	tablas ts;
 };
 
-/*--------------------------------------------------------------------PRIMERA ENTREGA--------------------------------------------------------------------*/
+/*-----------------------------------------------------PRIMERA ENTREGA--------------------------------------------------------------------*/
 
 bd createBD()
 {
@@ -32,7 +33,7 @@ bd createBD()
 TipoRet createTable(bd &bd, char *nombreTabla)
 {
 	// cout << " - createTable " << nombreTabla << endl;
-	crearTabla(bd->ts->t, nombreTabla);
+	crearTablas(bd->ts, nombreTabla);
 	return OK;
 }
 
@@ -46,8 +47,8 @@ TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *
 {
 	// cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;;
 	// Fijarse si nombreTabla coincide con la tabla en la que quiero insertar la columna y demas cosas.
-	if(strcmp(bd->ts->t->nom, nombreTabla) == 0){ // Se fija el nombre de la tabla
-		if (!colRep(bd, NombreCol)){
+	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija el nombre de la tabla
+		if (!colRep_bd(bd, NombreCol)){
 			if(strcmp(tipoCol,"integer") == 0 || strcmp(tipoCol,"string") == 0){ // Se fija el tipo de la columna
 				if (strcmp(calificadorCol, "PRIMARY_KEY") == 0)
 				{
@@ -191,17 +192,25 @@ bd destroyBD(bd &bd)
 	return NULL;
 }
 
-//Auxiliar
-bool colRep(bd &bd, char *nombCol)
+//------------------------------------------------Auxiliar------------------------------------------------
+bool colRep_bd(bd &bd, char *nombCol)
 //  Retorna true si ya hay una columna con nombre: nombCol en la tabla.
 // Pre: bd y tabla no vacias.
-{
-	columna iter = bd->ts->t->col;
-    while(iter->sig != NULL){
-		if(strcmp(iter->nombreCol, nombCol) == 0)
-			return true;
-		else
-			iter = iter->sig;
-	}
-	return false;
+{ 
+	return colRep_ts(bd->ts, nombCol);
 }
+
+bool nombreExistente(bd &bd, char *nombre)
+{
+    // Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.
+    if (bd->ts == NULL)
+        return false;
+    else
+    {
+        if (strcmp(nombreTabla_Tablas(bd->ts), nombre) == 0)
+            return true;
+		else
+			return false;
+    }
+}
+

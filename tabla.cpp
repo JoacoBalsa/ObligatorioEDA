@@ -42,8 +42,13 @@ TipoRet crearTabla(tabla &t, char *nombre)
     }
 }
 
+bool colRep_tabla(tabla t, char *nombCol){
+    return colRep(t->col, nombCol);
+}
+
 // Capaz es auxiliar
 char *nombreTabla(tabla t)
 {
     return t->nom;
 }
+
