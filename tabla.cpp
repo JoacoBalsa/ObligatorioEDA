@@ -8,17 +8,6 @@ using namespace std;
 
 #define MAX_NOMBRE 20
 
-/*
-    GUIA IMPLEMENTACION DE TABLAS
-
-- Crear Tabla : createTable
-- Eliminar Tabla: dropTable
-
-- Listar Tabla: printDataTable
-- Listar Esquema: printMetadata
-
-*/
-
 struct nodo_tabla
 {
     char *nom;
@@ -33,6 +22,8 @@ TipoRet crearTabla(tabla &t, char *nombre)
     {
         t = new (nodo_tabla);
         strcpy(t->nom, nombre);
+        t->col = NULL;
+        
         return OK;
     }
     else

@@ -5,11 +5,12 @@
 typedef struct nodo_tabla *tabla;
 
 TipoRet crearTabla(tabla &t, char *nombre);
-// Crea una tabla vacia.
+//  Crea una tabla vacia.
 
 char *nombreTabla(tabla t);
-// Retorna el nombre de la tabla.
+//  Retorna el nombre de la tabla.
 
 bool colRep_tabla(tabla t, char *nomCol);
+
 
 #endif

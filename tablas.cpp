@@ -8,16 +8,6 @@ using namespace std;
 
 #define MAX_NOMBRE 20
 
-/*
-    GUIA IMPLEMENTACION DE TABLAS
-
-- Crear Tabla : createTable
-- Eliminar Tabla: dropTable
-
-- Listar Tabla: printDataTable
-- Listar Esquema: printMetadata
-
-*/
 struct nodo_tablas
 {
     tabla t;
@@ -25,8 +15,32 @@ struct nodo_tablas
     tablas der;*/
 };
 
-void crearTablas(tablas &ts, char *nombreTabla){
-    crearTabla(ts->t, nombreTabla);
+TipoRet crearTablas(tablas &ts, char *nombreTabla){
+    
+    if (ts == NULL){
+        ts = new (nodo_tablas);
+        ts->t = NULL;
+    }
+    return crearTabla(ts->t, nombreTabla);
+}
+
+TipoRet eliminarTablas(tablas ts, char *nombre){
+// Elimina una tabla de nombre: nombre.
+    if(ts->t != NULL){
+        if(strcmp(nombreTabla_Tablas(ts), nombre) == 0){
+            tabla aux = ts->t;
+            ts->t = NULL;
+            delete aux;
+            cout << "Tabla eliminada correctamente." << endl;
+            return OK;
+        }else{
+            cout << "Nombre Tabla no existe en la base de datos." << endl;   
+            return ERROR;
+        }
+    }else{
+        cout << "No hay tablas para borrar." << endl;
+        return ERROR;
+    }
 }
 
 char *nombreTabla_Tablas(tablas ts){
@@ -37,25 +51,18 @@ bool colRep_ts(tablas ts, char *nombCol){
     return colRep_tabla(ts->t, nombCol);
 }
 
-/*TipoRet crearTablas(tablas &ts, char *nombre)
-// Crea una tabla y la conecta con las anteriores.
-{
-    if (!nombreExistente(ts, nombre)) // Funcion a implementar
-    {
-        tablas iter = ts;
-        while (iter->t != NULL) // Para insertar la tabla al final
-        {
-            iter = iter->sig;
-        }
-        crearTabla(iter->t, nombre);
+TipoRet imprimirTablas(tablas ts){
+// Imprime el nombre de la tabla (momentaneo ya que solo hay una).
+// Pre: Hay tablas para imprimir.
+    if(ts->t != NULL){
+        char *nombre;
+        nombre = nombreTabla(ts->t);
+        cout << "Nombre de tabla 1: " << nombre << endl;
         return OK;
-    }
-    else
-    {
-        cout << "Nombre de tabla ya existente" << endl;
+    }else{
+        cout << "No hay tablas para imprimir." << endl;
         return ERROR;
     }
 }
 
 
-}*/

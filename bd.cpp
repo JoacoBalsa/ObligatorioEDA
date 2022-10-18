@@ -8,10 +8,7 @@
 #include "bd.h"
 #include "tabla.h"
 #include "tablas.h"
-//#include "tabla.cpp"
-//#include "tablas.cpp"
 #include "columnas.h"
-//#include "columnas.cpp"
 #include "define.h"
 #include <string.h>
 
@@ -27,20 +24,27 @@ struct nodo_bd
 bd createBD()
 {
 	// Crea la base de datos vacia.
-	return NULL;
+	bd base = new (nodo_bd);
+	//base = NULL;
+	base->ts = NULL;
+	return base;
 }
 
 TipoRet createTable(bd &bd, char *nombreTabla)
 {
 	// cout << " - createTable " << nombreTabla << endl;
-	crearTablas(bd->ts, nombreTabla);
-	return OK;
+	return crearTablas(bd->ts, nombreTabla);
 }
 
 TipoRet dropTable(bd &bd, char *nombreTabla)
 {
 	// cout << " - dropTable " << nombreTabla << endl;;
-	return NO_IMPLEMENTADA;
+	if(bd->ts != NULL)
+		return eliminarTablas(bd->ts, nombreTabla);
+	else{
+		cout << "No hay tablas en la base de datos." << endl;
+		return ERROR;
+	}
 }
 
 TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol)
@@ -164,7 +168,14 @@ TipoRet printdatatable(bd bd, char *NombreTabla)
 TipoRet printTables(bd bd)
 {
 	// cout << " - printTables " << endl;
-	return NO_IMPLEMENTADA;
+	//###################################################-Hacer de nuevo en la seg entrega para que sea en orden-###################################################
+	if(bd->ts != NULL)
+		return imprimirTablas(bd->ts);
+	else{
+		cout << "No hay tablas" << endl;
+		return ERROR;
+	}
+
 }
 
 TipoRet printMetadata(bd bd, char *nombreTabla)

@@ -150,6 +150,9 @@ bool colRep_bd(bd &bd, char *nombCol);
 //  Retorna true si ya hay una columna con nombre: nombCol en la tabla.
 // Pre: bd y tabla no vacias.
 
+TipoRet imprimirTablas(tablas ts);
+// Se mete en las tablas y las imprime
+
 /*bool nombreExistente(tablas ts, char *nombre);
 // Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.*/
 
