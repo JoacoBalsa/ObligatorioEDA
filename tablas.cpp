@@ -15,8 +15,8 @@ struct nodo_tablas
     tablas der;*/
 };
 
-TipoRet crearTablas(tablas &ts, char *nombreTabla){
-    
+TipoRet crearTablas(tablas &ts, char *nombreTabla)
+{
     if (ts == NULL){
         ts = new (nodo_tablas);
         ts->t = NULL;
@@ -24,8 +24,8 @@ TipoRet crearTablas(tablas &ts, char *nombreTabla){
     return crearTabla(ts->t, nombreTabla);
 }
 
-TipoRet eliminarTablas(tablas ts, char *nombre){
-// Elimina una tabla de nombre: nombre.
+TipoRet eliminarTablas(tablas ts, char *nombre)
+{
     if(ts->t != NULL){
         if(strcmp(nombreTabla_Tablas(ts), nombre) == 0){
             tabla aux = ts->t;
@@ -43,17 +43,18 @@ TipoRet eliminarTablas(tablas ts, char *nombre){
     }
 }
 
-char *nombreTabla_Tablas(tablas ts){
+char *nombreTabla_Tablas(tablas ts)
+{
     return nombreTabla(ts->t);
 }
 
-bool colRep_ts(tablas ts, char *nombCol){
+bool colRep_ts(tablas ts, char *nombCol)
+{
     return colRep_tabla(ts->t, nombCol);
 }
 
-TipoRet imprimirTablas(tablas ts){
-// Imprime el nombre de la tabla (momentaneo ya que solo hay una).
-// Pre: Hay tablas para imprimir.
+TipoRet imprimirTablas(tablas ts)
+{
     if(ts->t != NULL){
         char *nombre;
         nombre = nombreTabla(ts->t);
@@ -64,5 +65,3 @@ TipoRet imprimirTablas(tablas ts){
         return ERROR;
     }
 }
-
-

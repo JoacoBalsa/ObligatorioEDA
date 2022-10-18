@@ -16,8 +16,6 @@ struct nodo_tabla
 
 TipoRet crearTabla(tabla &t, char *nombre)
 {
-    //  Crea una tabla individual vacia con el nombre pasado por parametro.
-    //  Pre: la base de datos tiene que estar creada.
     if (t == NULL)
     {
         t = new (nodo_tabla);
@@ -33,13 +31,12 @@ TipoRet crearTabla(tabla &t, char *nombre)
     }
 }
 
-bool colRep_tabla(tabla t, char *nombCol){
+bool colRep_tabla(tabla t, char *nombCol)
+{
     return colRep(t->col, nombCol);
 }
 
-// Capaz es auxiliar
 char *nombreTabla(tabla t)
 {
     return t->nom;
 }
-

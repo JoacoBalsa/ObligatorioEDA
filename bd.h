@@ -13,6 +13,7 @@
 
 typedef struct nodo_bd *bd;
 
+/*--------------------------------------------------------------------------PRIMERA ENTREGA-------------------------------------------------------------------------*/
 bd createBD();
 // Crea la base de datos vacía.
 
@@ -74,6 +75,8 @@ TipoRet update(bd &bd, char *nombreTabla, char *condicionModificar, char *column
 // siempre que este valor sea del tipo adecuado y satisfaga el calificador de la columna especificada.
 // La condición respeta el formato descrito para condiciones.
 
+/*--------------------------------------------------------------------------PRIMERA ENTREGA-------------------------------------------------------------------------*/
+
 TipoRet selectWhere(bd &bd, char *nomTabla1, char *condicion, char *nomTabla2);
 // Dado un nombre de tabla nombreTabla1 y una condición, genera una nueva tabla en la base de datos de
 // nombre nombreTabla2, si nombreTabla1 existe y nombreTabla2 no existe, con las tuplas de la tabla nombreTabla1
@@ -111,20 +114,25 @@ TipoRet minus_(bd &bd, char *nombreTabla1, char *nombreTabla2, char *nombreTabla
 // nombreTabla2. Es decir, la tabla resultante nombreTabla3 tiene las tuplas que están en nombreTabla1
 // pero no en nombreTabla2.
 
+
+/*--------------------------------------------------------------------------PRIMERA ENTREGA-------------------------------------------------------------------------*/
 TipoRet printdatatable(bd bd, char *NombreTabla);
 // Imprime las tuplas de la tabla de nombre nombreTabla, si ésta existe. Los nombres y los valores
 // de las columnas se expresan en el formato columna1:columna2: … :columnan. Las tuplas se muestran
 // ordenadas ascendentemente por la PRIMARY KEY. Primero se imprime el nombre de la tabla, luego los
 // nombres de las columnas, separados con (:), y por último las tuplas, cuyos campos se separan
 // también con (:).
+/*--------------------------------------------------------------------------PRIMERA ENTREGA-------------------------------------------------------------------------*/
 
 TipoRet printTables(bd bd);
 // Imprime los nombres de las tablas de la base de datos del sistema, ordenados alfabéticamente de menor a mayor.
 
+/*--------------------------------------------------------------------------PRIMERA ENTREGA-------------------------------------------------------------------------*/
 TipoRet printMetadata(bd bd, char *nombreTabla);
 // Imprime el esquema de la tabla de nombre nombreTabla, si éste existe. Es decir, imprime el nombre
 // de la Tabla, los nombres de sus columnas en el orden correspondiente, indicando para cada columna su
 // tipo de datos y calificador si lo tuviera.
+/*--------------------------------------------------------------------------PRIMERA ENTREGA-------------------------------------------------------------------------*/
 
 TipoRet undo(bd &bd);
 // Deshace el efecto de la última operación ejecutada que modifica el estado de la base de datos.
@@ -153,7 +161,7 @@ bool colRep_bd(bd &bd, char *nombCol);
 TipoRet imprimirTablas(tablas ts);
 // Se mete en las tablas y las imprime
 
-/*bool nombreExistente(tablas ts, char *nombre);
-// Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.*/
+bool nombreExistente(bd &bd, char *nombre);
+// Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.
 
 #endif

@@ -15,7 +15,6 @@ struct nodo_columna
 
 columna addColumna(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificador)
 {
-    //  Crea la columna vacia.
     columna col = new (nodo_columna);
     strcpy(col->nombreCol, NombreCol);
     col->calCol = calificador;
@@ -23,20 +22,20 @@ columna addColumna(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, Ca
     return col;
 }
 
-char *nombreColumna(columna col){
-//  Retorna el nombre de columna
+char *nombreColumna(columna col)
+{
     return col->nombreCol;
 }
 
-bool colRep(columna col, char *nombCol){
-//  Retorna true si la columna existe, false en caso contrario.
+bool colRep(columna col, char *nombCol)
+{
     columna iter = col;
-    while(iter->sig != NULL){
+    while(iter->sig != NULL)
+    {
         if (strcmp(iter->nombreCol, nombCol)==0)
             return true;
-        else{
+        else
             iter = iter->sig;
-        }
     }
     return false;
 }

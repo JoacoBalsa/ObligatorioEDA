@@ -19,8 +19,7 @@ struct nodo_bd
 	tablas ts;
 };
 
-/*-----------------------------------------------------PRIMERA ENTREGA--------------------------------------------------------------------*/
-
+/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 bd createBD()
 {
 	// Crea la base de datos vacia.
@@ -50,7 +49,6 @@ TipoRet dropTable(bd &bd, char *nombreTabla)
 TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol)
 {
 	// cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;;
-	// Fijarse si nombreTabla coincide con la tabla en la que quiero insertar la columna y demas cosas.
 	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija el nombre de la tabla
 		if (!colRep_bd(bd, NombreCol)){
 			if(strcmp(tipoCol,"integer") == 0 || strcmp(tipoCol,"string") == 0){ // Se fija el tipo de la columna
@@ -118,9 +116,7 @@ TipoRet update(bd &bd, char *nombreTabla, char *condicionModificar, char *column
 	// cout << " - update " << nombreTabla << " " << condicionModificar << " " << columnaModificar << " " << valorModificar << endl;
 	return NO_IMPLEMENTADA;
 }
-
-/*--------------------------------------------------------------------HASTA ACA PRIMERA ENTREGA--------------------------------------------------------------------*/
-
+/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 
 TipoRet selectWhere(bd &bd, char *nomTabla1, char *condicion, char *nomTabla2)
 {
@@ -158,12 +154,13 @@ TipoRet minus_(bd &bd, char *nombreTabla1, char *nombreTabla2, char *nombreTabla
 	return NO_IMPLEMENTADA;
 }
 
-/*--------------------------------------------------------------------PRIMERA ENTREGA--------------------------------------------------------------------*/
+/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 TipoRet printdatatable(bd bd, char *NombreTabla)
 {
 	// cout << " - printdatatable " << NombreTabla << endl;
 	return NO_IMPLEMENTADA;
 }
+/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 
 TipoRet printTables(bd bd)
 {
@@ -178,12 +175,13 @@ TipoRet printTables(bd bd)
 
 }
 
+/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 TipoRet printMetadata(bd bd, char *nombreTabla)
 {
 	// cout << " - printMetadata " << nombreTabla << endl;
 	return NO_IMPLEMENTADA;
 }
-/*--------------------------------------------------------------------HASTA ACA PRIMERA ENTREGA--------------------------------------------------------------------*/
+/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 
 TipoRet undo(bd &bd)
 {
@@ -199,21 +197,17 @@ TipoRet redo(bd &bd)
 
 bd destroyBD(bd &bd)
 {
-	//
 	return NULL;
 }
 
 //------------------------------------------------Auxiliar------------------------------------------------
 bool colRep_bd(bd &bd, char *nombCol)
-//  Retorna true si ya hay una columna con nombre: nombCol en la tabla.
-// Pre: bd y tabla no vacias.
 { 
 	return colRep_ts(bd->ts, nombCol);
 }
 
 bool nombreExistente(bd &bd, char *nombre)
 {
-    // Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.
     if (bd->ts == NULL)
         return false;
     else
