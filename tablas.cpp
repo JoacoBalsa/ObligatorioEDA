@@ -17,10 +17,8 @@ struct nodo_tablas
 
 TipoRet crearTablas(tablas &ts, char *nombreTabla)
 {
-    if (ts == NULL){
+    if (ts == NULL)
         ts = new (nodo_tablas);
-        ts->t = NULL;
-    }
     return crearTabla(ts->t, nombreTabla);
 }
 
@@ -65,3 +63,7 @@ TipoRet imprimirTablas(tablas ts)
         return ERROR;
     }
 }
+
+ void addColumnats (tablas &ts, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol){
+    addColumnat(ts->t, nombreTabla, NombreCol, tipoCol, calificadorCol);
+ }

@@ -22,10 +22,7 @@ struct nodo_bd
 /*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 bd createBD()
 {
-	// Crea la base de datos vacia.
 	bd base = new (nodo_bd);
-	//base = NULL;
-	base->ts = NULL;
 	return base;
 }
 
@@ -48,21 +45,26 @@ TipoRet dropTable(bd &bd, char *nombreTabla)
 
 TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol)
 {
-	// cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;;
+	// cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;
+	cout << "prueba 1" << endl;
 	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija el nombre de la tabla
+		cout << "prueba 2" << endl;
 		if (!colRep_bd(bd, NombreCol)){
+			cout << "prueba 3" << endl;
 			if(strcmp(tipoCol,"integer") == 0 || strcmp(tipoCol,"string") == 0){ // Se fija el tipo de la columna
+				cout << "prueba 4" << endl;
 				if (strcmp(calificadorCol, "PRIMARY_KEY") == 0)
 				{
-					addColumna(bd, nombreTabla, NombreCol, tipoCol, PRIMARY_KEY);
+					cout << "prueba 5" << endl;
+					addColumnats(bd->ts, nombreTabla, NombreCol, tipoCol, PRIMARY_KEY);
 				}
 				else if (strcmp(calificadorCol, "NOT_EMPTY") == 0)
 				{
-					addColumna(bd, nombreTabla, NombreCol, tipoCol, NOT_EMPTY);
+					addColumnats(bd->ts, nombreTabla, NombreCol, tipoCol, NOT_EMPTY);
 				}
 				else if (strcmp(calificadorCol, "ANY") == 0)
 				{
-					addColumna(bd, nombreTabla, NombreCol, tipoCol, ANY);
+					addColumnats(bd->ts, nombreTabla, NombreCol, tipoCol, ANY);
 				}
 				else
 				{

@@ -14,4 +14,7 @@ bool colRep_tabla(tabla t, char *nomCol);
 char *nombreTabla(tabla t);
 //  Retorna el nombre de la tabla.
 
+void addColumnat (tabla &t,  char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol);
+// Pasamanos para crear una columna.
+
 #endif

@@ -21,4 +21,7 @@ TipoRet imprimirTablas(tablas ts);
 // Imprime el nombre de la tabla (momentaneo ya que solo hay una).
 // Pre: Hay tablas para imprimir.
 
+void addColumnats (tablas &ts, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol);
+// Pasamanos, para crear columna.
+
 #endif

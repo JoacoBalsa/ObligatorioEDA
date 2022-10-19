@@ -26,4 +26,11 @@ enum _calificador
 };
 typedef enum _calificador CalCol;
 
+enum _dato
+{
+    STRING,
+    INT
+};
+typedef enum _dato tipoDato;
+
 #endif

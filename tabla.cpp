@@ -10,7 +10,7 @@ using namespace std;
 
 struct nodo_tabla
 {
-    char *nom;
+    char nom[MAX_NOMBRE];
     columna col;
 };
 
@@ -19,9 +19,8 @@ TipoRet crearTabla(tabla &t, char *nombre)
     if (t == NULL)
     {
         t = new (nodo_tabla);
-        strcpy(t->nom, nombre);
-        t->col = NULL;
-        
+        strcpy(t->nom, nombre); 
+        t->col = NULL;       
         return OK;
     }
     else
@@ -39,4 +38,8 @@ bool colRep_tabla(tabla t, char *nombCol)
 char *nombreTabla(tabla t)
 {
     return t->nom;
+}
+
+void addColumnat (tabla &t,  char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol){
+    t->col = addColumnaCol(t->col, NombreCol, tipoCol, calificadorCol);
 }

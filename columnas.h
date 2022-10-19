@@ -8,8 +8,8 @@
 
 typedef struct nodo_columna *columna;
 
-columna addColumna(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificador);
-//  Crea la columna vacia.
+columna addColumnaCol(columna col, char *NombreCol, char *tipoCol, CalCol calificador);
+//  Añade una columna vacia al final de la tabla. 
 
 char *nombreColumna(columna col);
 //  Retorna el nombre de columna.
