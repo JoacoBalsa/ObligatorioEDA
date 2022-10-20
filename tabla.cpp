@@ -43,3 +43,13 @@ char *nombreTabla(tabla t)
 void addColumnat (tabla &t,  char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol){
     t->col = addColumnaCol(t->col, NombreCol, tipoCol, calificadorCol);
 }
+
+void printDataTable_t (tabla &t, char *NombreTabla){
+    cout << NombreTabla << endl;
+    imprimir_columnas (t->col);
+}
+
+bool ExistePK_t(tabla t)
+{
+    return existe_PK(t->col);
+}

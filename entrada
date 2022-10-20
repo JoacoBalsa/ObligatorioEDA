@@ -1,3 +1,6 @@
 createTable(JP)
 addCol(JP, mz, integer, PRIMARY_KEY)
-
+addCol(JP, negro, string, ANY)
+addCol(JP, carlito, integer, NOT_EMPTY)
+addCol(JP, mz, integer, ANY)
+printdatatable(JP)

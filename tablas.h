@@ -24,4 +24,11 @@ TipoRet imprimirTablas(tablas ts);
 void addColumnats (tablas &ts, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol);
 // Pasamanos, para crear columna.
 
+void printDataTable_ts (tablas &ts, char *NombreTabla);
+// Pasamanos para el printdatatable.
+
+bool ExistePK_ts(tablas ts);
+// Pasamanos para fijarnos si existe una columna con PK en una tabla t.
+
+
 #endif

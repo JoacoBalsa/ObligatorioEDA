@@ -46,17 +46,18 @@ TipoRet dropTable(bd &bd, char *nombreTabla)
 TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol)
 {
 	// cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;
-	cout << "prueba 1" << endl;
 	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija el nombre de la tabla
-		cout << "prueba 2" << endl;
 		if (!colRep_bd(bd, NombreCol)){
-			cout << "prueba 3" << endl;
 			if(strcmp(tipoCol,"integer") == 0 || strcmp(tipoCol,"string") == 0){ // Se fija el tipo de la columna
-				cout << "prueba 4" << endl;
 				if (strcmp(calificadorCol, "PRIMARY_KEY") == 0)
 				{
-					cout << "prueba 5" << endl;
-					addColumnats(bd->ts, nombreTabla, NombreCol, tipoCol, PRIMARY_KEY);
+					if(!ExistePK_ts(bd->ts))
+						addColumnats(bd->ts, nombreTabla, NombreCol, tipoCol, PRIMARY_KEY);
+					else{
+						cout << "Ya existe una columna con PRIMARY_KEY" << endl;
+						return ERROR;
+					}
+
 				}
 				else if (strcmp(calificadorCol, "NOT_EMPTY") == 0)
 				{
@@ -160,7 +161,13 @@ TipoRet minus_(bd &bd, char *nombreTabla1, char *nombreTabla2, char *nombreTabla
 TipoRet printdatatable(bd bd, char *NombreTabla)
 {
 	// cout << " - printdatatable " << NombreTabla << endl;
-	return NO_IMPLEMENTADA;
+	if(strcmp(nombreTabla_Tablas(bd->ts), NombreTabla) == 0){
+		printDataTable_ts (bd->ts, NombreTabla);
+		return OK;
+	}else{	
+		cout << "Tabla no existente en la base de datos" << endl;
+		return ERROR;
+	}
 }
 /*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 

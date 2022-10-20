@@ -6,7 +6,7 @@
 #include <string.h>
 #include <iostream>
 
-#define NUM 30
+#define NOM 30
 
 using namespace std;
 
@@ -22,46 +22,34 @@ struct nodo_columna
 
 columna addColumnaCol(columna col,char *NombreCol, char *tipoCol, CalCol calificador)
 {
-    if(col != NULL){
+    /*if(col != NULL){
         while(col->ant != NULL) // Va al comienzo de las columnas.
             col = col->ant;
         while(col->calCol != ANY && col->sig != NULL) // Se fija si hay columnas no vacias.
             col = col->sig;
+    }*/
+    columna nuevaCol = new (nodo_columna);
+    nuevaCol->nombreCol = new char[NOM];
+    strcpy(nuevaCol->nombreCol, NombreCol);
+    nuevaCol->calCol = calificador;
+    if(strcmp(tipoCol, "string") == 0){
+        nuevaCol->tipoCol = STRING;
+    }else if(strcmp(tipoCol, "integer") == 0){
+        nuevaCol->tipoCol = INT;
     }
-    cout << "error 1" << endl;
-    //if(col->d == NULL){
-        columna nuevaCol = new (nodo_columna);
-        //nuevaCol->nombreCol = new(char);
-        nuevaCol->nombreCol = new char[NUM];
-        cout << "error 2" << endl;
-        strcpy(nuevaCol->nombreCol, NombreCol);
-        cout << "error 3" << endl;
-        nuevaCol->calCol = calificador;
-        cout << "error 4" << endl;
-        if(tipoCol == "string"){
-            nuevaCol->tipoCol = STRING;
-            cout << "error 4.string" << endl;
-        }else if(tipoCol == "integer"){
-            nuevaCol->tipoCol = INT;
-            cout << "error 4.integer" << endl;
-        }else{
-            cout << "tipoCol incorrecto" << endl;
-        }
-        nuevaCol->sig = NULL;
-        cout << "error 5" << endl;
-        if(col == NULL){ // Si nuevaCol es la primera columna de la tabla.
-            nuevaCol->ant = NULL;
-            return nuevaCol;
-        }
-        else{ //Si ya hay columnas en la tabla. 
-            columna iter = col;
-            while(iter->sig != NULL)
-                iter = iter->sig;
-            iter->sig = nuevaCol;
-            nuevaCol->ant = iter;
-            return nuevaCol;
-        }
-    //}
+    nuevaCol->sig = NULL;
+    if(col == NULL){ // Si nuevaCol es la primera columna de la tabla.
+        nuevaCol->ant = NULL;
+       return nuevaCol;
+    }
+    else{ //Si ya hay columnas en la tabla. 
+        columna iter = col;
+        while(iter->sig != NULL)
+            iter = iter->sig;
+        iter->sig = nuevaCol;
+        nuevaCol->ant = iter;
+        return nuevaCol;
+    }
 }
 
 char *nombreColumna(columna col)
@@ -75,7 +63,7 @@ bool colRep(columna col, char *nombCol)
         columna iter = col;
         while(iter->ant != NULL)
             iter = iter->ant;
-        while(iter->sig != NULL)
+        while(iter != NULL)
         {
             if (strcmp(iter->nombreCol, nombCol)==0)
                 return true;
@@ -84,5 +72,33 @@ bool colRep(columna col, char *nombCol)
         }
     }
    return false;
+}
+
+void imprimir_columnas (columna col){
+    if(col != NULL){
+        columna iter = col;
+        while (iter->ant != NULL)// Va al principio de la lista de columnas
+            iter = iter->ant;
+        while(iter->sig != NULL){
+            cout << iter->nombreCol << ":";
+            iter = iter->sig;
+        }
+        cout << iter->nombreCol << endl;
+    }
+}
+
+bool existe_PK(columna col){
+    if(col != NULL){
+        columna iter = col;
+        while(iter->ant != NULL)
+            iter = iter->ant;
+        while(iter != NULL){
+            if(iter->calCol == PRIMARY_KEY)
+                return true;
+            else
+                iter = iter->sig;
+        }
+    }
+    return false;
 }
  

@@ -19,6 +19,7 @@ TipoRet crearTablas(tablas &ts, char *nombreTabla)
 {
     if (ts == NULL)
         ts = new (nodo_tablas);
+    ts->t = NULL;
     return crearTabla(ts->t, nombreTabla);
 }
 
@@ -26,8 +27,8 @@ TipoRet eliminarTablas(tablas ts, char *nombre)
 {
     if(ts->t != NULL){
         if(strcmp(nombreTabla_Tablas(ts), nombre) == 0){
-            tabla aux = ts->t;
-            ts->t = NULL;
+            tablas aux = ts;
+            ts = NULL;
             delete aux;
             cout << "Tabla eliminada correctamente." << endl;
             return OK;
@@ -64,6 +65,14 @@ TipoRet imprimirTablas(tablas ts)
     }
 }
 
- void addColumnats (tablas &ts, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol){
+void addColumnats (tablas &ts, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol){
     addColumnat(ts->t, nombreTabla, NombreCol, tipoCol, calificadorCol);
- }
+}
+
+void printDataTable_ts (tablas &ts, char *NombreTabla){
+    printDataTable_t (ts->t, NombreTabla);
+}
+
+bool ExistePK_ts(tablas ts){
+    return ExistePK_t(ts->t);
+}

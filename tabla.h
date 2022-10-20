@@ -17,4 +17,10 @@ char *nombreTabla(tabla t);
 void addColumnat (tabla &t,  char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol);
 // Pasamanos para crear una columna.
 
+void printDataTable_t (tabla &t, char *NombreTabla);
+// Imprime las tuplas de la tabla de nombre: NombreTabla.
+
+bool ExistePK_t(tabla t);
+// Retorna true si en la tabla t hay una columna con PRIMARY_KEY.
+
 #endif
