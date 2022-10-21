@@ -1,5 +1,6 @@
 #include "tabla.h"
 #include "tablas.h"
+#include "columnas.h"
 #include "define.h"
 #include <string.h>
 #include <iostream>
@@ -75,4 +76,16 @@ void printDataTable_ts (tablas &ts, char *NombreTabla){
 
 bool ExistePK_ts(tablas ts){
     return ExistePK_t(ts->t);
+}
+
+bool esPK_ts(tablas ts, char *nombreTabla, char *nombreCol){
+	return esPK_t(ts->t, nombreTabla, nombreCol);
+}
+
+int cant_colTS(tablas ts,char *NombreTabla){
+    return cant_colT(ts->t, NombreTabla);
+}
+
+void dropCol_ts(tablas ts, char *nombreTabla, char *nombreCol){
+    eliminarCol_t(ts->t, nombreCol);
 }

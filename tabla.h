@@ -23,4 +23,13 @@ void printDataTable_t (tabla &t, char *NombreTabla);
 bool ExistePK_t(tabla t);
 // Retorna true si en la tabla t hay una columna con PRIMARY_KEY.
 
+bool esPK_t(tabla t, char *nombreTabla, char *nombreCol);
+//  Retorna true si la columna en t es PRIMARY_KEY, false en caso contrario.
+
+int cant_colT(tabla t,char *NombreTabla);
+// Cuenta la cantidad de columnas de una tabla t.
+
+void eliminarCol_t(tabla t, char *nombreCol);
+//  Pasamanos para eliminar la columna nombreCol de la tabla t.
+
 #endif

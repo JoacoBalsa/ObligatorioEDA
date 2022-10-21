@@ -46,7 +46,7 @@ TipoRet dropTable(bd &bd, char *nombreTabla)
 TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol)
 {
 	// cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;
-	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija el nombre de la tabla
+	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija que exista una tabla con ese nombre.
 		if (!colRep_bd(bd, NombreCol)){
 			if(strcmp(tipoCol,"integer") == 0 || strcmp(tipoCol,"string") == 0){ // Se fija el tipo de la columna
 				if (strcmp(calificadorCol, "PRIMARY_KEY") == 0)
@@ -93,7 +93,23 @@ TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *
 TipoRet dropCol(bd &bd, char *nombreTabla, char *NombreCol)
 {
 	// cout << " - dropCol " << nombreTabla << " " << NombreCol << endl;;
-	return NO_IMPLEMENTADA;
+	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija que exista una tabla con ese nombre.
+		if(colRep_bd(bd, NombreCol)){
+			if(esPK_BD(bd, nombreTabla, NombreCol) && cant_colBD(bd, nombreTabla) > 1){
+				cout << "No se puede borrar la PRIMARY_KEY si hay mas columnas" << endl;
+				return ERROR;
+			}else
+				dropCol_ts(bd->ts, nombreTabla, NombreCol);
+		}
+		else{
+			cout << "No existe una columna de nombre "<< NombreCol << endl;
+			return ERROR; 
+		}
+	}else{
+		cout << "No existe en la base de datos una tabla de nombre " << nombreTabla << endl;
+		return ERROR;
+	}
+	return OK;
 }
 
 TipoRet alterCol(bd &bd, char *nombreTabla, char *nombreCol, char *tipoColNuevo, char *calificadorColNuevo, char *nombreColNuevo)
@@ -161,11 +177,16 @@ TipoRet minus_(bd &bd, char *nombreTabla1, char *nombreTabla2, char *nombreTabla
 TipoRet printdatatable(bd bd, char *NombreTabla)
 {
 	// cout << " - printdatatable " << NombreTabla << endl;
-	if(strcmp(nombreTabla_Tablas(bd->ts), NombreTabla) == 0){
-		printDataTable_ts (bd->ts, NombreTabla);
-		return OK;
-	}else{	
-		cout << "Tabla no existente en la base de datos" << endl;
+	if(bd->ts != NULL){
+		if(strcmp(nombreTabla_Tablas(bd->ts), NombreTabla) == 0){
+			printDataTable_ts (bd->ts, NombreTabla);
+			return OK;
+		}else{	
+			cout << "Tabla no existente en la base de datos" << endl;
+			return ERROR;
+		}
+	}else{
+		cout << "No hay tablas mostrar" << endl;
 		return ERROR;
 	}
 }
@@ -226,5 +247,13 @@ bool nombreExistente(bd &bd, char *nombre)
 		else
 			return false;
     }
+}
+
+bool esPK_BD(bd &bd, char *nombreTabla, char *NombreCol){
+	return esPK_ts(bd->ts, nombreTabla, NombreCol);
+}
+
+int cant_colBD(bd &bd, char *NombreTabla){
+	return cant_colTS(bd->ts, NombreTabla);
 }
 

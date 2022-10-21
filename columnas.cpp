@@ -102,3 +102,64 @@ bool existe_PK(columna col){
     return false;
 }
  
+bool esPK_col(columna col, char *nombreCol){
+    if (col != NULL){
+        columna iter = col;
+        while (iter->ant != NULL)
+            iter = iter->ant;
+        while (strcmp(iter->nombreCol, nombreCol) != 0){
+            iter = iter->sig;
+        }
+        if (iter->calCol == PRIMARY_KEY)
+            return true;
+        else
+            return false;
+    }
+    return false;
+}
+
+int cant_col(columna col){
+    int cont = 0;
+    if (col != NULL){
+        columna iter = col;
+        while (iter->ant != NULL)
+            iter = iter->ant;
+        while (iter != NULL){
+            iter = iter->sig;
+            cont++;
+        }
+    }
+    return cont;
+}
+
+columna eliminarCol(columna col, char *nombreCol){
+    columna iter = col;
+    while (iter->ant != NULL)                       //  Va hasta el principio de la lista de columnas. 
+        iter = iter->ant;
+    while (strcmp(iter->nombreCol, nombreCol) != 0){
+        iter = iter->sig;
+    }
+    //deleteDatos_col(iter);
+    if(iter->ant == NULL && iter->sig == NULL){     //  Caso de una sola columna.
+        delete iter;
+        return NULL;
+    }
+    else{
+        columna aux = iter;
+        if(iter->ant == NULL){                      //  Caso de primera columna.                 
+            iter = iter->sig;
+            iter->ant = NULL;
+        }
+        else if(iter->sig == NULL){                 //  Caso de ser la utlima columna.
+            iter = iter->ant;   
+            iter->sig = NULL;
+        }
+        else{
+            iter = iter->sig;
+            iter->ant = aux->ant;
+            aux->ant->sig = iter;
+        }
+        delete aux;
+        return iter;
+    }
+}

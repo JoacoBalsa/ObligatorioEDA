@@ -164,4 +164,10 @@ TipoRet imprimirTablas(tablas ts);
 bool nombreExistente(bd &bd, char *nombre);
 // Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.
 
+bool esPK_BD(bd &bd, char *nombreTabla, char *NombreCol);
+// Retorna true si la el calificador de la columna que se le pasa es PRIMARY_KEY.
+
+int cant_colBD(bd &bd, char *NombreTabla);
+// Retorna la cantidad de columnas que tiene una tabla.
+
 #endif

@@ -53,3 +53,15 @@ bool ExistePK_t(tabla t)
 {
     return existe_PK(t->col);
 }
+
+bool esPK_t(tabla t, char *nombreTabla, char *nombreCol){
+	return esPK_col(t->col, nombreCol);
+}
+
+int cant_colT(tabla t,char *NombreTabla){
+    return cant_col(t->col);
+}
+
+void eliminarCol_t(tabla t, char *nombreCol){
+    t->col = eliminarCol(t->col, nombreCol);
+}
