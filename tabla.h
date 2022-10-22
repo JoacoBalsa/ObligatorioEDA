@@ -32,4 +32,7 @@ int cant_colT(tabla t,char *NombreTabla);
 void eliminarCol_t(tabla t, char *nombreCol);
 //  Pasamanos para eliminar la columna nombreCol de la tabla t.
 
+bool Tupla_validaT(tabla &t, char *columnasTupla, char *valoresTupla);
+// Pasamanos para fijarnos si en tabla t se puede agragar la tupla con valoresTupla.
+
 #endif

@@ -163,3 +163,32 @@ columna eliminarCol(columna col, char *nombreCol){
         return iter;
     }
 }
+
+bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
+    columna iter = col;
+    while (iter->ant != NULL)
+        iter = iter->ant;
+    while (iter->sig != NULL){
+        if(!tupla_valida_para_columna(col, columnasTupla, valoresTupla)){
+            return false;
+        }
+        iter = iter->sig;
+    }
+    return true;
+}
+
+bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresTupla){
+    const char s[2] = ":";
+    char *aux = new(char);
+    char *aux2 = new(char);
+    aux = strtok (aux, s);
+    aux2 = strtok(aux2, s);
+    while (aux != NULL){
+        // Fijarse si el string aux2 coincide con col->tipoCol.
+        if((strcmp(col->nombreCol, aux) == 0) || (col->calCol == ANY))
+            return true;
+        aux = strtok (NULL, s);
+        aux2 = strtok (NULL, s);
+    }
+    return false;
+}

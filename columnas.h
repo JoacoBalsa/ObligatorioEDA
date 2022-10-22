@@ -34,4 +34,10 @@ columna eliminarCol(columna col, char *nombreCol);
 // Elimina una columna de nombre: nombreCol y sus datos.
 // Pre: la columna a eliminar debe existir, fijarse antes en bd.
 
+bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla);
+// se fija si en la columna col, se puede agregar la tupla de valores valoresTupla. retorna true en caso de que si y false en caso contrario.
+
+bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresTupla);
+// Retorna true si el nombre de col, fue pasado en columnasTupla y en caso de que no haya sido pasado, que tipocol de col sea ANY, sino retorna false.
+
 #endif

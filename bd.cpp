@@ -121,7 +121,18 @@ TipoRet alterCol(bd &bd, char *nombreTabla, char *nombreCol, char *tipoColNuevo,
 TipoRet insertInto(bd &bd, char *nombreTabla, char *columnasTupla, char *valoresTupla)
 {
 	// cout << " - insertInto " << nombreTabla << " " << columnasTupla << " " << valoresTupla<< endl;;
-	return NO_IMPLEMENTADA;
+	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){
+		if(Tupla_validaTS(bd->ts, nombreTabla, columnasTupla, valoresTupla)){
+			cout << "Tupla creada con exito" << endl;
+		}
+		else
+			return ERROR;
+	}
+	else{
+		cout << "No existe en la base de datos una tabla de nombre: " << nombreTabla << endl;
+		return ERROR;
+	}
+	return OK;
 }
 
 TipoRet deleteFrom(bd &bd, char *nombreTabla, char *condicionEliminar)

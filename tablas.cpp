@@ -89,3 +89,7 @@ int cant_colTS(tablas ts,char *NombreTabla){
 void dropCol_ts(tablas ts, char *nombreTabla, char *nombreCol){
     eliminarCol_t(ts->t, nombreCol);
 }
+
+bool Tupla_validaTS (tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla){
+    return Tupla_validaT(ts->t, columnasTupla, valoresTupla);
+}

@@ -42,4 +42,7 @@ int cant_colTS(tablas ts,char *NombreTabla);
 void dropCol_ts(tablas ts, char *nombreTabla, char *nombreCol);
 //  Pasamanos para eliminar la columna nombreCol de la tabla nombreTabla incluida en ts.
 
+bool Tupla_validaTS (tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla);
+// Pasamanos para fijarnos si una tupla es valida para insertar en la tabla nombreTabla, con columnas columnasTupla.
+
 #endif

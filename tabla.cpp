@@ -65,3 +65,18 @@ int cant_colT(tabla t,char *NombreTabla){
 void eliminarCol_t(tabla t, char *nombreCol){
     t->col = eliminarCol(t->col, nombreCol);
 }
+
+bool Tupla_validaT(tabla &t, char *columnasTupla, char *valoresTupla){
+    if(t->col != NULL){
+        if(existe_PK(t->col))
+            return Tupla_valida(t->col, columnasTupla, valoresTupla);
+        else{
+            cout << t->nom << " No tiene ninguna columna PRIMARY_KEY" << endl;
+            return false;
+        }
+    }
+    else{
+        cout << "No hay columnas en la tabla " << t->nom << endl;
+        return false;
+    }
+}
