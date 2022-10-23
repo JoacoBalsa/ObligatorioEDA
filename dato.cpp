@@ -17,3 +17,6 @@ struct nodo_dato
     dato abajo;                                                                                                                                                                                           
 };
 
+dato nuevoDato(columna &col){
+    dato d = new (nodo_dato);
+}

@@ -123,10 +123,13 @@ TipoRet insertInto(bd &bd, char *nombreTabla, char *columnasTupla, char *valores
 	// cout << " - insertInto " << nombreTabla << " " << columnasTupla << " " << valoresTupla<< endl;;
 	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){
 		if(Tupla_validaTS(bd->ts, nombreTabla, columnasTupla, valoresTupla)){
+			insertarDato_ts(bd->ts, nombreTabla, columnasTupla, valoresTupla);//Funcion para insertar en tupla -> tablas -> tabla -> columna -> dato
 			cout << "Tupla creada con exito" << endl;
 		}
-		else
+		else{
+			cout << "No se pueden dejar columnas con valores NULL si no son de tipo ANY dichas columnas" << endl;
 			return ERROR;
+		}
 	}
 	else{
 		cout << "No existe en la base de datos una tabla de nombre: " << nombreTabla << endl;

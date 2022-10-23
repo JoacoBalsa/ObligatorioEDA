@@ -93,3 +93,7 @@ void dropCol_ts(tablas ts, char *nombreTabla, char *nombreCol){
 bool Tupla_validaTS (tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla){
     return Tupla_validaT(ts->t, columnasTupla, valoresTupla);
 }
+
+void insertarDato_ts(tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla){
+    insertarDato_t(ts->t, columnasTupla, valoresTupla);
+}

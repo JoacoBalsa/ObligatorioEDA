@@ -3,6 +3,7 @@
 #include "define.h"
 #include "bd.h"
 #include "tabla.h"
+#include "dato.h"
 #include <string.h>
 #include <iostream>
 
@@ -35,9 +36,12 @@ columna eliminarCol(columna col, char *nombreCol);
 // Pre: la columna a eliminar debe existir, fijarse antes en bd.
 
 bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla);
-// se fija si en la columna col, se puede agregar la tupla de valores valoresTupla. retorna true en caso de que si y false en caso contrario.
+// Se fija si en la columna col se puede agregar la tupla de valores valoresTupla. retorna true en caso de que si y false en caso contrario.
 
 bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresTupla);
-// Retorna true si el nombre de col, fue pasado en columnasTupla y en caso de que no haya sido pasado, que tipocol de col sea ANY, sino retorna false.
+// Retorna true si el nombre de col fue pasado en columnasTupla y en caso de que no haya sido pasado, que tipocol de col sea ANY, sino retorna false.
+
+void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla);
+// Inserta un dato en cada columna formando asi una tupla.
 
 #endif

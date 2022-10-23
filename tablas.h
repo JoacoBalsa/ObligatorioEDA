@@ -45,4 +45,7 @@ void dropCol_ts(tablas ts, char *nombreTabla, char *nombreCol);
 bool Tupla_validaTS (tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla);
 // Pasamanos para fijarnos si una tupla es valida para insertar en la tabla nombreTabla, con columnas columnasTupla.
 
+void insertarDato_ts(tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla);
+// Pasamanos para insertar una tupla. 
+
 #endif

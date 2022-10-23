@@ -38,24 +38,24 @@ columna addColumnaCol(columna col,char *NombreCol, char *tipoCol, CalCol calific
         nuevaCol->tipoCol = INT;
     }
     nuevaCol->sig = NULL;
-    if(col == NULL){ // Si nuevaCol es la primera columna de la tabla.
+    if(col == NULL)                         // Si nuevaCol es la primera columna de la tabla.
         nuevaCol->ant = NULL;
-       return nuevaCol;
-    }
-    else{ //Si ya hay columnas en la tabla. 
+    else{                                   //Si ya hay columnas en la tabla. 
         columna iter = col;
         while(iter->sig != NULL)
             iter = iter->sig;
         iter->sig = nuevaCol;
         nuevaCol->ant = iter;
-        return nuevaCol;
     }
+    nuevaCol->d = NULL;
+    return nuevaCol;
 }
 
 char *nombreColumna(columna col)
 {
     return col->nombreCol;
 }
+
 
 bool colRep(columna col, char *nombCol)
 {
@@ -168,7 +168,7 @@ bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
     columna iter = col;
     while (iter->ant != NULL)
         iter = iter->ant;
-    while (iter->sig != NULL){
+    while (iter != NULL){
         if(!tupla_valida_para_columna(col, columnasTupla, valoresTupla)){
             return false;
         }
@@ -191,4 +191,7 @@ bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresT
         aux2 = strtok (NULL, s);
     }
     return false;
+}
+
+void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla){
 }

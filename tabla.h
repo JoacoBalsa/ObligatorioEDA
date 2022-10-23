@@ -35,4 +35,7 @@ void eliminarCol_t(tabla t, char *nombreCol);
 bool Tupla_validaT(tabla &t, char *columnasTupla, char *valoresTupla);
 // Pasamanos para fijarnos si en tabla t se puede agragar la tupla con valoresTupla.
 
+void insertarDato_t(tabla &t, char *columnasTupla, char *valoresTupla);
+// Pasamanos para insertar una tupla.
+
 #endif

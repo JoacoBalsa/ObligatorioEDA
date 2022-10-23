@@ -80,3 +80,7 @@ bool Tupla_validaT(tabla &t, char *columnasTupla, char *valoresTupla){
         return false;
     }
 }
+
+void insertarDato_t(tabla &t, char *columnasTupla, char *valoresTupla){
+    insertarDato_col(t->col, columnasTupla, valoresTupla);
+}
