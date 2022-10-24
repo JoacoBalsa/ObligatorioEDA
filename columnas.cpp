@@ -179,17 +179,26 @@ bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
 
 bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresTupla){
     const char s[2] = ":";
-    char *aux = new(char);
-    char *aux2 = new(char);
-    aux = strtok (aux, s);
-    aux2 = strtok(aux2, s);
-    while (aux != NULL){
-        // Fijarse si el string aux2 coincide con col->tipoCol.
-        if((strcmp(col->nombreCol, aux) == 0) || (col->calCol == ANY))
-            return true;
-        aux = strtok (NULL, s);
-        aux2 = strtok (NULL, s);
+    char *aux = new(char), *aux2 = new(char);
+    aux = strtok (columnasTupla, s);
+    aux2 = strtok(valoresTupla, s);
+    while (aux != NULL && aux != NULL){
+        if((col->calCol == ANY) || (strcmp(col->nombreCol, aux) == 0)){
+           return true;
+        }
+        else
+            cout << "No se puede dejar la columna " << col->nombreCol << " sin valor ya que su tipo no es ANY" << endl;
+        columnasTupla = &columnasTupla[strlen(aux) + 1];
+        valoresTupla = &valoresTupla[strlen(aux2) + 1];
+        aux = strtok(columnasTupla, s);
+        cout << aux << "---->";
+        aux2 = strtok(valoresTupla, s);
+        cout << aux2<< endl;
     }
+    if(aux != NULL && aux2 == NULL)
+        cout << "Pusiste mas columnas que parametros" << endl;
+    else if (aux == NULL && aux2 != NULL)
+        cout << "Pusiste mas parametros que columnas" << endl;
     return false;
 }
 

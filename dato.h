@@ -9,7 +9,7 @@
 
 typedef struct nodo_dato *dato;
 
-dato nuevoDato(columna &col);
+//dato nuevoDato(columna &col);
 //  Crea un nuevo dato (valor de columnaTupla)
 
 #endif
