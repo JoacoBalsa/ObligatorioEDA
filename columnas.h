@@ -38,10 +38,13 @@ columna eliminarCol(columna col, char *nombreCol);
 bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla);
 // Se fija si en la columna col se puede agregar la tupla de valores valoresTupla. retorna true en caso de que si y false en caso contrario.
 
-bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresTupla);
+bool tupla_valida_para_columna (columna col, char *column, char *valor);
 // Retorna true si el nombre de col fue pasado en columnasTupla y en caso de que no haya sido pasado, que tipocol de col sea ANY, sino retorna false.
 
 void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla);
 // Inserta un dato en cada columna formando asi una tupla.
+
+bool pasan_col(columna col, char *column);
+// Retorna true si el nombre de la columna col coincide con column.
 
 #endif

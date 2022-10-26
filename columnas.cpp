@@ -172,7 +172,7 @@ bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
     aux = strtok (columnasTupla, ":");
     aux2 = strtok(valoresTupla, ":");
     while (iter != NULL &&(aux != NULL) && (aux2 != NULL)){
-        if((strcmp (iter->nombreCol, aux) != 0) && (iter->calCol != ANY)){
+        /*if((strcmp (iter->nombreCol, aux) != 0) && (iter->calCol != ANY)){
             cout << "No se puede dejar la columna " << col->nombreCol << " sin valor ya que su tipo no es ANY" << endl;
             return false;
         }
@@ -186,56 +186,72 @@ bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
             if (valoresTupla != NULL)
                 aux2 = strtok(valoresTupla, ":");
         } 
-        iter = iter->sig;
+        iter = iter->sig;*/
+        if(!tupla_valida_para_columna(iter, aux, aux2))
+            return false;
+        else{
+            if(iter->calCol != ANY){
+                columnasTupla = &columnasTupla[strlen(aux) + 1];
+                valoresTupla = &valoresTupla[strlen(aux2) + 1];
+                if(columnasTupla != NULL)
+                    aux = strtok(columnasTupla, ":");
+                if (valoresTupla != NULL)
+                    aux2 = strtok(valoresTupla, ":");
+            }
+            iter = iter->sig;
+        }
+
     }
     if(aux != NULL && aux2 == NULL){
-        cout << "Se ingresaron mas columnas que parametros" << endl;
+        cout << "Faltan valores para las columnas" << endl;
         return false;
     }
-    else if (aux2 != NULL && aux == NULL){
+    else if(aux2 != NULL && aux == NULL){
         cout << "Se ingresaron mas valores que columnas" << endl;
         return false;
     }
     return true;
 }
 
-/*bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresTupla){
-    const char s[2] = ":";
-    char *aux = new(char), *aux2 = new(char),*PC = new(char), *PT = new(char);
-    aux = strtok (columnasTupla, s);
-    aux2 = strtok(valoresTupla, s);
-    strcpy(PC, aux);
-    strcpy(PT, aux2);
-    cout << PC << " esta es la primer columna" << endl;
-    cout << PT << " esta es la primera tupla" << endl;
-    while (aux != NULL && aux2 != NULL){
-        if((strcmp(col->nombreCol, aux) == 0) || (col->calCol == ANY)){
-            cout << aux << "---->";
-            cout << aux2<< endl;
-           return true;
-        }
-        else if (col->calCol != ANY){
-            cout << "No se puede dejar la columna " << col->nombreCol << " sin valor ya que su tipo no es ANY" << endl;
-            return false;
-        }
-        cout << aux << "---->";
-        cout << aux2<< endl;            
-        columnasTupla = &columnasTupla[strlen(aux) + 1];
-        valoresTupla = &valoresTupla[strlen(aux2) + 1];
-        aux = strtok(columnasTupla, s);
-        aux2 = strtok(valoresTupla, s);
-        if((strcmp(PC, aux) == 0) || (strcmp (PT, aux) == 0)){
-            cout << "entre en el if" << endl;
-            aux = NULL;
-            aux2 = NULL;
-        }
+bool tupla_valida_para_columna (columna col, char *column, char *valor){
+    columna iter = col;
+    //cout << "Nombre columna que entra: " << iter->nombreCol << endl;
+    if(iter->calCol == ANY){
+        //cout << column << "---->";
+        //cout << valor << endl;
+        return true;
     }
-    if(aux != NULL && aux2 == NULL)// entra en este if pq es el primero
-        cout << "Se ingresaron mas columnas que parametros" << endl;
-    else if (aux == NULL && aux2 != NULL)
-        cout << "Se ingresaron mas valores que columnas" << endl;
+    while(iter->ant != NULL)
+        iter = iter->ant;
+    while(iter != NULL){
+        if(strcmp(iter->nombreCol, column) == 0){
+            //cout << "Nombre columna que iguala: " << iter->nombreCol << endl;
+            //cout << column << "---->";
+            //cout << valor << endl;
+            return true;
+        }
+        else
+            iter = iter->sig;
+    }
+    cout << "La tupla que ingresaste no es valida" << endl;
+    //cout << column << "---->";
+    //cout << valor << endl; 
     return false;
-}*/
+}
+
+bool pasan_col(columna col, char *column){
+    columna iter = col;
+    cout << col->nombreCol << " Entre con este nombre a pasan_col" << endl;
+    while(iter != NULL){
+        if (strcmp(iter->nombreCol, column) == 0){
+            cout << "Consumi " << column << endl;
+            return true;
+        }
+        iter = iter->sig;
+    }
+    //cout << "error pasan_col" << endl;
+    return false;
+}
 
 void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla){
     //insertarDato_d(valoresTupla);
