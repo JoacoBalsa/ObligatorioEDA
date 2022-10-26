@@ -17,6 +17,9 @@ struct nodo_dato
     dato abajo;                                                                                                                                                                                           
 };
 
+//insertarDato_d(valoresTupla){}
+
+
 /*dato nuevoDato(columna &col){
     dato d = new (nodo_dato);
 }*/

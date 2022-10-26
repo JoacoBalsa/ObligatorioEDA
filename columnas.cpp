@@ -166,41 +166,77 @@ columna eliminarCol(columna col, char *nombreCol){
 
 bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
     columna iter = col;
-    while (iter->ant != NULL)
+    char *aux = new(char), *aux2 = new(char);
+    while (iter->ant != NULL) // Va hasta la primera columna.
         iter = iter->ant;
-    while (iter != NULL){
-        if(!tupla_valida_para_columna(col, columnasTupla, valoresTupla)){
+    aux = strtok (columnasTupla, ":");
+    aux2 = strtok(valoresTupla, ":");
+    while (iter != NULL &&(aux != NULL) && (aux2 != NULL)){
+        if((strcmp (iter->nombreCol, aux) != 0) && (iter->calCol != ANY)){
+            cout << "No se puede dejar la columna " << col->nombreCol << " sin valor ya que su tipo no es ANY" << endl;
             return false;
         }
+        if(iter->calCol != ANY){
+            cout << aux << "---->";
+            cout << aux2<< endl;
+            columnasTupla = &columnasTupla[strlen(aux) + 1];
+            valoresTupla = &valoresTupla[strlen(aux2) + 1];
+            if(columnasTupla != NULL)
+                aux = strtok(columnasTupla, ":");
+            if (valoresTupla != NULL)
+                aux2 = strtok(valoresTupla, ":");
+        } 
         iter = iter->sig;
+    }
+    if(aux != NULL && aux2 == NULL){
+        cout << "Se ingresaron mas columnas que parametros" << endl;
+        return false;
+    }
+    else if (aux2 != NULL && aux == NULL){
+        cout << "Se ingresaron mas valores que columnas" << endl;
+        return false;
     }
     return true;
 }
 
-bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresTupla){
+/*bool tupla_valida_para_columna (columna col, char *columnasTupla, char *valoresTupla){
     const char s[2] = ":";
-    char *aux = new(char), *aux2 = new(char);
+    char *aux = new(char), *aux2 = new(char),*PC = new(char), *PT = new(char);
     aux = strtok (columnasTupla, s);
     aux2 = strtok(valoresTupla, s);
-    while (aux != NULL && aux != NULL){
-        if((col->calCol == ANY) || (strcmp(col->nombreCol, aux) == 0)){
+    strcpy(PC, aux);
+    strcpy(PT, aux2);
+    cout << PC << " esta es la primer columna" << endl;
+    cout << PT << " esta es la primera tupla" << endl;
+    while (aux != NULL && aux2 != NULL){
+        if((strcmp(col->nombreCol, aux) == 0) || (col->calCol == ANY)){
+            cout << aux << "---->";
+            cout << aux2<< endl;
            return true;
         }
-        else
+        else if (col->calCol != ANY){
             cout << "No se puede dejar la columna " << col->nombreCol << " sin valor ya que su tipo no es ANY" << endl;
+            return false;
+        }
+        cout << aux << "---->";
+        cout << aux2<< endl;            
         columnasTupla = &columnasTupla[strlen(aux) + 1];
         valoresTupla = &valoresTupla[strlen(aux2) + 1];
         aux = strtok(columnasTupla, s);
-        cout << aux << "---->";
         aux2 = strtok(valoresTupla, s);
-        cout << aux2<< endl;
+        if((strcmp(PC, aux) == 0) || (strcmp (PT, aux) == 0)){
+            cout << "entre en el if" << endl;
+            aux = NULL;
+            aux2 = NULL;
+        }
     }
-    if(aux != NULL && aux2 == NULL)
-        cout << "Pusiste mas columnas que parametros" << endl;
+    if(aux != NULL && aux2 == NULL)// entra en este if pq es el primero
+        cout << "Se ingresaron mas columnas que parametros" << endl;
     else if (aux == NULL && aux2 != NULL)
-        cout << "Pusiste mas parametros que columnas" << endl;
+        cout << "Se ingresaron mas valores que columnas" << endl;
     return false;
-}
+}*/
 
 void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla){
+    //insertarDato_d(valoresTupla);
 }
