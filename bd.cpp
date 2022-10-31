@@ -122,6 +122,9 @@ TipoRet insertInto(bd &bd, char *nombreTabla, char *columnasTupla, char *valores
 {
 	// cout << " - insertInto " << nombreTabla << " " << columnasTupla << " " << valoresTupla<< endl;;
 	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){
+		char *valoresTuplacpy = new char[strlen(valoresTupla)+1], *columnasTuplacpy = new char[strlen(columnasTupla)+1];
+		strcpy(valoresTuplacpy, valoresTupla);
+		strcpy(columnasTuplacpy, columnasTupla);
 		if(Tupla_validaTS(bd->ts, nombreTabla, columnasTupla, valoresTupla)){
 			//insertarDato_ts(bd->ts, nombreTabla, columnasTupla, valoresTupla);//Funcion para insertar en tupla -> tablas -> tabla -> columna -> dato
 			cout << "Tupla creada con exito" << endl;

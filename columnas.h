@@ -38,7 +38,7 @@ columna eliminarCol(columna col, char *nombreCol);
 bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla);
 // Se fija si en la columna col se puede agregar la tupla de valores valoresTupla. retorna true en caso de que si y false en caso contrario.
 
-bool tupla_valida_para_columna (columna col, char *column, char *valor);
+bool tupla_valida_para_columna (columna col, char *columnasTupla);
 // Retorna true si el nombre de col fue pasado en columnasTupla y en caso de que no haya sido pasado, que tipocol de col sea ANY, sino retorna false.
 
 void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla);
@@ -46,5 +46,11 @@ void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla);
 
 bool pasan_col(columna col, char *column);
 // Retorna true si el nombre de la columna col coincide con column.
+
+bool cantCol_igual_cantVal (char *columnasTupla, char *valoresTupla);
+// Retorna true si la cantidad de columnas de columnasTupla es igual a la cantidad de valores de valoresTupla.
+
+bool valor_PK (columna col, char *columnasTupla);
+// Retorna true, si se paso en columnasTupla la columna PRIMARY_KEY de col.
 
 #endif
