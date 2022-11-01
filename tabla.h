@@ -1,5 +1,13 @@
 #ifndef TABLA_H
 #define TABLA_H
+
+// Estructuras de Datos y Algoritmos - Curso 2022
+// Tecnologo en Informatica FIng - DGETP - UTEC
+//
+// Trabajo Obligatorio
+// tabla.h
+// Modulo de Definición de Base de Datos.
+
 #include "define.h"
 
 typedef struct nodo_tabla *tabla;

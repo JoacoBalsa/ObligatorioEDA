@@ -1,5 +1,13 @@
 #ifndef COLUMNAS_H
 #define COLUMNAS_H
+
+// Estructuras de Datos y Algoritmos - Curso 2022
+// Tecnologo en Informatica FIng - DGETP - UTEC
+//
+// Trabajo Obligatorio
+// columnas.h
+// Modulo de Definición de Base de Datos.
+
 #include "define.h"
 #include "bd.h"
 #include "tabla.h"
@@ -44,13 +52,13 @@ bool tupla_valida_para_columna (columna col, char *columnasTupla);
 void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla);
 // Inserta un dato en cada columna formando asi una tupla.
 
-bool pasan_col(columna col, char *column);
-// Retorna true si el nombre de la columna col coincide con column.
-
 bool cantCol_igual_cantVal (char *columnasTupla, char *valoresTupla);
 // Retorna true si la cantidad de columnas de columnasTupla es igual a la cantidad de valores de valoresTupla.
 
 bool valor_PK (columna col, char *columnasTupla);
 // Retorna true, si se paso en columnasTupla la columna PRIMARY_KEY de col.
+
+tipoDato tipo_dato(columna col);
+//  Retorna el tipoDato de la columna.
 
 #endif

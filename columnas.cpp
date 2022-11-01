@@ -1,10 +1,17 @@
+// Estructuras de Datos y Algoritmos - Curso 2022
+// Tecnologo en Informatica FIng - DGETP - UTEC
+// Trabajo Obligatorio
+// columnas.cpp
+// Modulo de Implementación de Base de Datos.
+
+#include <iostream>
 #include "columnas.h"
 #include "dato.h"
 #include "define.h"
 #include "bd.h"
 #include "tabla.h"
 #include <string.h>
-#include <iostream>
+
 
 #define NOM 30
 
@@ -22,12 +29,6 @@ struct nodo_columna
 
 columna addColumnaCol(columna col,char *NombreCol, char *tipoCol, CalCol calificador)
 {
-    /*if(col != NULL){
-        while(col->ant != NULL) // Va al comienzo de las columnas.
-            col = col->ant;
-        while(col->calCol != ANY && col->sig != NULL) // Se fija si hay columnas no vacias.
-            col = col->sig;
-    }*/
     columna nuevaCol = new (nodo_columna);
     nuevaCol->nombreCol = new char[NOM];
     strcpy(nuevaCol->nombreCol, NombreCol);
@@ -40,7 +41,7 @@ columna addColumnaCol(columna col,char *NombreCol, char *tipoCol, CalCol calific
     nuevaCol->sig = NULL;
     if(col == NULL)                         // Si nuevaCol es la primera columna de la tabla.
         nuevaCol->ant = NULL;
-    else{                                   //Si ya hay columnas en la tabla. 
+    else{                                   // Si ya hay columnas en la tabla. 
         columna iter = col;
         while(iter->sig != NULL)
             iter = iter->sig;
@@ -165,36 +166,6 @@ columna eliminarCol(columna col, char *nombreCol){
 }
 
 bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
-    /*columna iter = col;
-    char *aux = new(char), *aux2 = new(char);
-    while (iter->ant != NULL) // Va hasta la primera columna.
-        iter = iter->ant;
-    aux = strtok (columnasTupla, ":");
-    aux2 = strtok(valoresTupla, ":");
-    while (iter != NULL &&(aux != NULL) && (aux2 != NULL)){
-        if(!tupla_valida_para_columna(iter, aux, aux2))
-            return false;
-        else{
-            if(iter->calCol != ANY){
-                columnasTupla = &columnasTupla[strlen(aux) + 1];
-                valoresTupla = &valoresTupla[strlen(aux2) + 1];
-                if(columnasTupla != NULL)
-                    aux = strtok(columnasTupla, ":");
-                if (valoresTupla != NULL)
-                    aux2 = strtok(valoresTupla, ":");
-            }
-            iter = iter->sig;
-        }
-    }
-    if(aux != NULL && aux2 == NULL){
-        cout << "Faltan valores para las columnas" << endl;
-        return false;
-    }
-    else if(aux2 != NULL && aux == NULL){
-        cout << "Se ingresaron mas valores que columnas" << endl;
-        return false;
-    }
-    return true;*/
     columna iter = col;
     while(iter->ant != NULL)
         iter = iter->ant;
@@ -214,29 +185,6 @@ bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
 }
 
 bool tupla_valida_para_columna (columna col, char *columnasTupla){
-    /*columna iter = col;
-    //cout << "Nombre columna que entra: " << iter->nombreCol << endl;
-    if(iter->calCol == ANY){
-        //cout << column << "---->";
-        //cout << valor << endl;
-        return true;
-    }
-    while(iter->ant != NULL)
-        iter = iter->ant;
-    while(iter != NULL){
-        if(strcmp(iter->nombreCol, column) == 0){
-            //cout << "Nombre columna que iguala: " << iter->nombreCol << endl;
-            //cout << column << "---->";
-            //cout << valor << endl;
-            return true;
-        }
-        else
-            iter = iter->sig;
-    }
-    cout << col->nombreCol << " no es de tipo ANY debes asignarle un valor" << endl;
-    //cout << column << "---->";
-    //cout << valor << endl; 
-    return false;*/
     if(col->calCol == ANY)
         return true;
     else{
@@ -280,7 +228,24 @@ bool cantCol_igual_cantVal (char *columnasTupla, char *valoresTupla){
 }
 
 void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla){
-    //insertarDato_d(valoresTupla);
+    columna iter = col;
+    char *columnasCpy = new char [strlen(columnasTupla) + 1];
+    strcpy(columnasCpy, columnasTupla);
+    char *valoresCpy = new char [strlen(valoresTupla) + 1];
+    strcpy(columnasCpy, columnasTupla);
+    char *aux1 = new(char), *aux2 = new(char);
+    aux1 = strtok(columnasCpy, ":");
+    aux2 = strtok(valoresCpy, ":");
+
+    while(iter->ant != NULL) // Va a la primera columna
+        iter = iter->ant;
+    while(aux1 != NULL){
+        while(strcmp(aux1, iter->nombreCol)!=0)  // Busca columnasTupla donde insertar valoresTupla
+            iter = iter->sig;
+        insertarDato_d(col, iter->d, aux2);
+        aux1 = strtok(NULL, ":");
+        aux2 = strtok(NULL, ":");
+    }
 }
 
 bool valor_PK (columna col, char *columnasTupla){
@@ -304,16 +269,6 @@ bool valor_PK (columna col, char *columnasTupla){
     return false;
 }
 
-/*bool pasan_col(columna col, char *column){
-    columna iter = col;
-    cout << col->nombreCol << " Entre con este nombre a pasan_col" << endl;
-    while(iter != NULL){
-        if (strcmp(iter->nombreCol, column) == 0){
-            cout << "Consumi " << column << endl;
-            return true;
-        }
-        iter = iter->sig;
-    }
-    //cout << "error pasan_col" << endl;
-    return false;
-}*/
+tipoDato tipo_dato(columna col){
+    return col->tipoCol;
+}

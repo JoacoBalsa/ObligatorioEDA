@@ -1,9 +1,16 @@
+// Estructuras de Datos y Algoritmos - Curso 2022
+// Tecnologo en Informatica FIng - DGETP - UTEC
+// Trabajo Obligatorio
+// tablas.cpp
+// Modulo de Implementación de Base de Datos.
+
+#include <iostream>
 #include "tabla.h"
 #include "tablas.h"
 #include "columnas.h"
 #include "define.h"
 #include <string.h>
-#include <iostream>
+
 
 using namespace std;
 
