@@ -61,4 +61,10 @@ bool valor_PK (columna col, char *columnasTupla);
 tipoDato tipo_dato(columna col);
 //  Retorna el tipoDato de la columna.
 
+bool PasanCol(columna col, char *columnas);
+//  Retorna true si el nombre de col fue pasado en columnasTupla.
+
+int insertarPK_col(columna &col, char *columnasTupla, char *valoresTupla);
+// Inserta los datos de la PK de la columna col.
+
 #endif
