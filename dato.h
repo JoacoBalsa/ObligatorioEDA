@@ -22,7 +22,7 @@ typedef struct nodo_dato *dato;
 //void insertarDato_d(dato datos, char *valorTupla);
 // Inserta el dato en la columna.
 
-int cantDato(dato d, char *Tipocol, char *valor);
+int cantDato(dato d);
 //  Retorna la cantidad de datos en la columna.
 
 int insertarPK (dato &d, tipoDato Tipocol, char *valor);

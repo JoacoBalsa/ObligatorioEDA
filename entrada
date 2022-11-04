@@ -12,4 +12,8 @@ insertInto(Personas, Nombre:Edad:CI:Apellido:Calle:Barrio, Carlos:20:60:Martinez
 insertInto(Personas, Nombre:Edad:CI:Apellido:Calle:Barrio, Carlos:20:1000:Martinez:SantaLucia:NewParis)
 insertInto(Personas, Nombre:Edad:CI:Apellido:Calle:Barrio, Carlos:20:12346:Martinez:SantaLucia:NewParis)
 insertInto(Personas, Nombre:Edad:CI:Apellido:Calle:Barrio, Carlos:20:100:Martinez:SantaLucia:NewParis)
+insertInto(Personas, Nombre:Edad:CI:Apellido:Calle:Barrio, Carlos:20:1:Martinez:SantaLucia:NewParis)
+insertInto(Personas, Nombre:Edad:CI:Apellido:Calle:Barrio, Carlos:20:12347:Martinez:SantaLucia:NewParis)
 salir()
+
+// 0 - 1 - 2 - 0 - 2 - 5 - 1 - 0 - 8

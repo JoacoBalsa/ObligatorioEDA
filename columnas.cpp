@@ -245,6 +245,7 @@ int insertarPK_col(columna &col, char *columnasTupla, char *valoresTupla){
         aux2 = strtok(valores, ":");
     }
     cout << "inserto a columna " << aux << " el valor " << aux2 << endl;
+    cout << "La cantidad de datos es " << cantDato(iter->d) << endl;
     if(iter->tipoCol == INT){
         return insertarPK(iter->d, INT, aux2);
     }

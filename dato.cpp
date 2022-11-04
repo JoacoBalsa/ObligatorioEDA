@@ -41,9 +41,10 @@ struct nodo_dato
 }*/
 
 int insertarPK(dato &d, tipoDato tipo, char *valor){
+    cout << "Entro en insertar PK" << endl;
     dato iter = d;
     dato var = new (nodo_dato);
-    int cont = 1;
+    int cont = 0;
     if (tipo == STRING){
         strcpy(var->caracter, valor);
     }
@@ -62,45 +63,49 @@ int insertarPK(dato &d, tipoDato tipo, char *valor){
     while(iter->arriba != NULL)
         iter = iter->arriba;
     while(iter != NULL){
-        if(iter->entero > var->entero || iter->abajo == NULL || (strcmp(iter->caracter, var->caracter)>0)){
+        if(iter->entero > var->entero || iter->abajo == NULL){ //|| (strcmp(iter->caracter, var->caracter)>0)){
             if(iter->arriba == NULL && iter->entero > var->entero){
                 var->arriba = NULL;
                 var->abajo = iter;
                 iter->arriba = var;
                 d = iter;
                 cout << "arriba = NULL " << d->entero << endl;
-                return 0;
+                return cont;
             }
             else if(iter->abajo == NULL && iter->entero < var->entero){
                 var->abajo = NULL;
                 var->arriba = iter;
                 iter->abajo = var;
                 d = iter;
-                cout << "abajo == NULL " << d->entero << endl; 
-                return cont;
+                cout << "abajo == NULL " << d->entero << endl;
+                return cont+1;
             }
-            else if ((iter->entero > var->entero) || (strcmp(iter->caracter, var->caracter)>0)){
+            else if ((iter->entero > var->entero)){//|| //(strcmp(iter->caracter, var->caracter)>0)){
                 var->arriba = iter->arriba;
                 var->abajo = iter;
+                iter->arriba->abajo = var;
                 iter->arriba= var;
                 d = iter;
-                cout << "el siguiente mayor que yo " << d->entero << endl; 
+                cout << "el siguiente mayor que yo " << d->entero << endl;
                 return cont;
             }
         }
         cont++;
         iter = iter->abajo;
     }
-
+    return cont;
 }
 
 int cantDato (dato d){
-    while(d->arriba!=NULL)
-        d=d->arriba;
     int cant = 0;
-    while(d!=NULL){
-        cant++;
-        d=d->abajo;
+    if(d != NULL){
+        dato iter = d;
+        while(iter->arriba != NULL)
+            iter=iter->arriba;
+        while(iter != NULL){
+            cant++;
+            iter=iter->abajo;
+        }
     }
     return cant;
 }
