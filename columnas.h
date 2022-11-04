@@ -67,4 +67,7 @@ bool PasanCol(columna col, char *columnas);
 int insertarPK_col(columna &col, char *columnasTupla, char *valoresTupla);
 // Inserta los datos de la PK de la columna col.
 
+bool PK_repetidacol(columna col, char *columnasTupla, char *valoresTupla);
+// Retorna true el valor de valoresTupla para la col PK esta repetido dentro de col.
+
 #endif

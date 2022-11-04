@@ -41,7 +41,6 @@ struct nodo_dato
 }*/
 
 int insertarPK(dato &d, tipoDato tipo, char *valor){
-    cout << "Entro en insertar PK" << endl;
     dato iter = d;
     dato var = new (nodo_dato);
     int cont = 0;
@@ -50,43 +49,39 @@ int insertarPK(dato &d, tipoDato tipo, char *valor){
     }
     else{
         var->entero = atoi(valor);
-        cout << "Mi valor es " << var->entero << endl;
     }
     if (iter == NULL){
         iter = var;
         iter->abajo = NULL;
         iter->arriba = NULL;
         d = iter;
-        cout << "entro aca" << endl;
         return 0;
     }
     while(iter->arriba != NULL)
         iter = iter->arriba;
     while(iter != NULL){
-        if(iter->entero > var->entero || iter->abajo == NULL){ //|| (strcmp(iter->caracter, var->caracter)>0)){
-            if(iter->arriba == NULL && iter->entero > var->entero){
+        (strcmp(iter->caracter, var->caracter)>0);
+        if((iter->entero > var->entero || (strcmp(iter->caracter, var->caracter)>0))|| iter->abajo == NULL){
+            if(iter->arriba == NULL && (iter->entero > var->entero || strcmp(iter->caracter, var->caracter)>0)){
                 var->arriba = NULL;
                 var->abajo = iter;
                 iter->arriba = var;
                 d = iter;
-                cout << "arriba = NULL " << d->entero << endl;
                 return cont;
             }
-            else if(iter->abajo == NULL && iter->entero < var->entero){
+            else if(iter->abajo == NULL && (iter->entero < var->entero || strcmp(iter->caracter, var->caracter) < 0)){
                 var->abajo = NULL;
                 var->arriba = iter;
                 iter->abajo = var;
                 d = iter;
-                cout << "abajo == NULL " << d->entero << endl;
                 return cont+1;
             }
-            else if ((iter->entero > var->entero)){//|| //(strcmp(iter->caracter, var->caracter)>0)){
+            else if (((iter->entero > var->entero)) || strcmp(iter->caracter, var->caracter)>0){
                 var->arriba = iter->arriba;
                 var->abajo = iter;
                 iter->arriba->abajo = var;
                 iter->arriba= var;
                 d = iter;
-                cout << "el siguiente mayor que yo " << d->entero << endl;
                 return cont;
             }
         }
@@ -94,6 +89,24 @@ int insertarPK(dato &d, tipoDato tipo, char *valor){
         iter = iter->abajo;
     }
     return cont;
+}
+
+bool PK_repetida (dato d, tipoDato tipo, char *valor){
+    dato iter = d;
+    while(iter->arriba != NULL)
+        iter = iter->arriba;
+    while(iter != NULL){
+        if(tipo == INT){
+            if(iter->entero == atoi(valor))
+                return true;
+        }
+        else{
+            if(strcmp(iter->caracter, valor) == 0)
+                return true;
+        }
+        iter = iter->abajo;
+    }
+    return false;
 }
 
 int cantDato (dato d){

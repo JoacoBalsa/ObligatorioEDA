@@ -170,6 +170,8 @@ bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
         iter = iter->ant;
     if(!valor_PK(iter, columnasTupla))
         return false;
+    if(PK_repetidacol(iter, columnasTupla, valoresTupla))
+        return false;
     if(cantCol_igual_cantVal(columnasTupla, valoresTupla)){
         while(iter->sig != NULL){
             if(!tupla_valida_para_columna(iter, columnasTupla))
@@ -181,6 +183,33 @@ bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
     else
         return false;
     return true;
+}
+
+bool PK_repetidacol(columna col, char *columnasTupla, char *valoresTupla){
+    columna iter = col;
+    if(iter->d != NULL){
+        char *valores = new char[strlen(valoresTupla)+1], *columnas = new char[strlen(columnasTupla)+1];
+        strcpy(valores, valoresTupla);
+        strcpy(columnas, columnasTupla);
+        char *aux = new(char), *aux2 = new(char);
+        while(iter->ant != NULL)
+            iter = iter->ant;
+        while(iter->calCol != PRIMARY_KEY)
+            iter = iter->sig;
+        aux = strtok(columnas, ":");
+        aux2 = strtok(valores, ":");
+        while(strcmp (aux, iter->nombreCol) != 0){
+            columnas = &columnas[strlen(aux) + 1];
+            valores = &valores[strlen(aux2) + 1];
+            aux = strtok(columnas, ":");
+            aux2 = strtok(valores, ":");
+        }
+        if(PK_repetida(iter->d, iter->tipoCol, aux2)){
+            cout << "La columna " << iter->nombreCol << " es PRIMARY_KEY no se pueden repetir valores" << endl; 
+            return true;
+        }
+    }
+    return false;
 }
 
 bool tupla_valida_para_columna (columna col, char *columnasTupla){
@@ -244,14 +273,7 @@ int insertarPK_col(columna &col, char *columnasTupla, char *valoresTupla){
         aux = strtok(columnas, ":");
         aux2 = strtok(valores, ":");
     }
-    cout << "inserto a columna " << aux << " el valor " << aux2 << endl;
-    cout << "La cantidad de datos es " << cantDato(iter->d) << endl;
-    if(iter->tipoCol == INT){
-        return insertarPK(iter->d, INT, aux2);
-    }
-    else{
-        return insertarPK(iter->d, STRING, aux2);
-    }
+   return insertarPK(iter->d, iter->tipoCol, aux2);
 }
 
 void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla){
@@ -278,13 +300,13 @@ void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla){
     bool columnas_con_Dato[tam];
     while(iter->ant != NULL)
         iter = iter->ant;
-    while(iter->sig != NULL && cont < tam){
+    while(iter != NULL && cont < tam){
         columnas_con_Dato[cont] = PasanCol(iter, columnasTupla);
         iter = iter->sig;
         cont++;
     }
+    iter = col;
     pos = insertarPK_col(iter, columnasTupla, valoresTupla);
-    cout << "Inserte la PK en la posicion " << pos << endl;
 }
 
 bool PasanCol(columna col, char *columnasTupla){
