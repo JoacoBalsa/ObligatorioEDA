@@ -28,13 +28,8 @@ TipoRet crearTabla(tabla &t, char *nombre)
         t = new (nodo_tabla);
         strcpy(t->nom, nombre); 
         t->col = NULL;       
-        return OK;
     }
-    else
-    {
-        cout << "No se puede sobreescribir la tabla" << endl;
-        return ERROR;
-    }
+    return OK;
 }
 
 bool colRep_tabla(tabla t, char *nombCol)
@@ -42,12 +37,12 @@ bool colRep_tabla(tabla t, char *nombCol)
     return colRep(t->col, nombCol);
 }
 
-char *nombreTabla(tabla t)
+char *nombreT(tabla t)
 {
     return t->nom;
 }
 
-void addColumnat (tabla &t,  char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol){
+void addColumnat (tabla &t, char *NombreCol, char *tipoCol, CalCol calificadorCol){
     t->col = addColumnaCol(t->col, NombreCol, tipoCol, calificadorCol);
 }
 
@@ -61,11 +56,11 @@ bool ExistePK_t(tabla t)
     return existe_PK(t->col);
 }
 
-bool esPK_t(tabla t, char *nombreTabla, char *nombreCol){
+bool esPK_t(tabla t, char *nombreCol){
 	return esPK_col(t->col, nombreCol);
 }
 
-int cant_colT(tabla t,char *NombreTabla){
+int cant_colT(tabla t){
     return cant_col(t->col);
 }
 

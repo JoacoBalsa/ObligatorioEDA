@@ -154,15 +154,12 @@ bd destroyBD(bd &bd);
 
 //------------------------------------------------Auxiliar------------------------------------------------
 
-bool colRep_bd(bd &bd, char *nombCol);
+bool colRep_bd(bd &bd, char *nombreTabla,  char *nombCol);
 //  Retorna true si ya hay una columna con nombre: nombCol en la tabla.
 // Pre: bd y tabla no vacias.
 
 TipoRet imprimirTablas(tablas ts);
 // Se mete en las tablas y las imprime
-
-bool nombreExistente(bd &bd, char *nombre);
-// Retorna true si ya hay una tabla con ese nombre en la base de datos y false en caso contrario.
 
 bool esPK_BD(bd &bd, char *nombreTabla, char *NombreCol);
 // Retorna true si la el calificador de la columna que se le pasa es PRIMARY_KEY.

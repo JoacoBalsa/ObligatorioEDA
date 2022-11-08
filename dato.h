@@ -31,7 +31,5 @@ int insertarPK (dato &d, tipoDato Tipocol, char *valor);
 bool PK_repetida (dato d, tipoDato tipo, char *valor);
 // devuelve true si el valor se repite en datos.
 
-// 0 - 1 - 2 - 0 - 2 - 5 - 1
-// 60 100 123 1000 1234 12345 12346
 
 #endif

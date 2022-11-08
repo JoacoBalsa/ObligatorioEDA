@@ -17,16 +17,30 @@ TipoRet crearTablas(tablas &ts, char *nombreTabla);
 //  Crea una tabla t con nombre nombreTabla dentro de tablas ts.
 
 TipoRet eliminarTablas(tablas ts, char *nombre);
-//  Elimina la tabla nombre de la bd, devuelve error si no se pasa un nombre o si no existe esa tabla.
+// Elimina la tabla nombre de la bd, devuelve error si no se pasa un nombre o si no existe esa tabla.
+// Actualizar para tablas
 
-char *nombreTabla_Tablas(tablas ts);
-//  Busca en una tabla t dentro de ts y retorna su nombre.
+tablas eliminar(tablas ts, char *nombreTabla);
+// Elimina recusrivamente una tabla del arbol ts.
 
-bool colRep_ts(tablas ts, char *nombCol);
+tablas max_izq(tablas &ts);
+
+tablas min_der(tablas &ts);
+
+int profundidad(tablas ts);
+// Retorna la profundidad del arbol;
+
+int max(int a, int b);
+// Retorna el maximo de a y b. 
+
+bool nombreTabla_Tablas(tablas ts, char *nombreTabla);
+// Retorna True si hay una tabla nombreTabla en ts
+
+bool colRep_ts(tablas ts, char *nombreTabla, char *nombCol);
 //  Retorna true si la columna ya existe, false en caso contrario.
 
 TipoRet imprimirTablas(tablas ts);
-//  Imprime el nombre de la tabla (momentaneo ya que solo hay una).
+//  Imprime el nombre de la tablas.
 //  Pre: Hay tablas para imprimir.
 
 void addColumnats (tablas &ts, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol);
@@ -35,16 +49,13 @@ void addColumnats (tablas &ts, char *nombreTabla, char *NombreCol, char *tipoCol
 void printDataTable_ts (tablas &ts, char *NombreTabla);
 //  Pasamanos para el printdatatable.
 
-bool ExistePK_ts(tablas ts);
+bool ExistePK_ts(tablas ts, char *nombreTabla);
 //  Pasamanos para fijarnos si existe una columna con PK en una tabla t.
-
-int cant_colTS(tablas ts,char *NombreTabla,char *NombreCol);
-//  Pasamanos, para contar la cantidad de columnas de una tabla.
 
 bool esPK_ts(tablas ts, char *nombreTabla, char *nombreCol);
 //  Retorna true si la el calificador de la columna que se le pasa es PRIMARY_KEY.
 
-int cant_colTS(tablas ts,char *NombreTabla);
+int cant_colTS(tablas ts, char *nombreTabla);
 //  Retorna la cantidad de columnas que tiene una tabla.
 
 void dropCol_ts(tablas ts, char *nombreTabla, char *nombreCol);
@@ -54,6 +65,6 @@ bool Tupla_validaTS (tablas &ts, char *nombreTabla, char *columnasTupla, char *v
 // Pasamanos para fijarnos si una tupla es valida para insertar en la tabla nombreTabla, con columnas columnasTupla.
 
 void insertarDato_ts(tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla);
-// Pasamanos para insertar una tupla. 
+// Pasamanos para insertar una tupla.
 
 #endif

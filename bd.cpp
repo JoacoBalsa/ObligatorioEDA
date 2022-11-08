@@ -36,7 +36,12 @@ TipoRet dropTable(bd &bd, char *nombreTabla)
 {
 	// cout << " - dropTable " << nombreTabla << endl;;
 	if(bd->ts != NULL)
-		return eliminarTablas(bd->ts, nombreTabla);
+		if(nombreTabla_Tablas(bd->ts, nombreTabla))
+			return eliminarTablas(bd->ts, nombreTabla);
+		else{
+			cout << "No existe una tabla con ese nombre" << endl;
+			return ERROR;
+		}
 	else{
 		cout << "No hay tablas en la base de datos." << endl;
 		return ERROR;
@@ -46,12 +51,12 @@ TipoRet dropTable(bd &bd, char *nombreTabla)
 TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *calificadorCol)
 {
 	// cout << " - addCol " << nombreTabla << " " << NombreCol << " " << tipoCol << " " << calificadorCol << endl;
-	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija que exista una tabla con ese nombre.
-		if (!colRep_bd(bd, NombreCol)){
+	if(nombreTabla_Tablas(bd->ts, nombreTabla)){ // Se fija que exista una tabla con ese nombre.
+		if (!colRep_bd(bd,nombreTabla, NombreCol)){
 			if(strcmp(tipoCol,"integer") == 0 || strcmp(tipoCol,"string") == 0){ // Se fija el tipo de la columna
 				if (strcmp(calificadorCol, "PRIMARY_KEY") == 0)
 				{
-					if(!ExistePK_ts(bd->ts))
+					if(!ExistePK_ts(bd->ts, nombreTabla))
 						addColumnats(bd->ts, nombreTabla, NombreCol, tipoCol, PRIMARY_KEY);
 					else{
 						cout << "Ya existe una columna con PRIMARY_KEY" << endl;
@@ -93,8 +98,8 @@ TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *
 TipoRet dropCol(bd &bd, char *nombreTabla, char *NombreCol)
 {
 	// cout << " - dropCol " << nombreTabla << " " << NombreCol << endl;;
-	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){ // Se fija que exista una tabla con ese nombre.
-		if(colRep_bd(bd, NombreCol)){
+	if(nombreTabla_Tablas(bd->ts, nombreTabla)){ // Se fija que exista una tabla con ese nombre.
+		if(colRep_bd(bd,nombreTabla, NombreCol)){
 			if(esPK_BD(bd, nombreTabla, NombreCol) && cant_colBD(bd, nombreTabla) > 1){
 				cout << "No se puede borrar la PRIMARY_KEY si hay mas columnas" << endl;
 				return ERROR;
@@ -121,7 +126,7 @@ TipoRet alterCol(bd &bd, char *nombreTabla, char *nombreCol, char *tipoColNuevo,
 TipoRet insertInto(bd &bd, char *nombreTabla, char *columnasTupla, char *valoresTupla)
 {
 	// cout << " - insertInto " << nombreTabla << " " << columnasTupla << " " << valoresTupla<< endl;;
-	if(strcmp(nombreTabla_Tablas(bd->ts), nombreTabla) == 0){
+	if(nombreTabla_Tablas(bd->ts, nombreTabla)){
 		if(Tupla_validaTS(bd->ts, nombreTabla, columnasTupla, valoresTupla)){
 			insertarDato_ts(bd->ts, nombreTabla, columnasTupla, valoresTupla);
 			cout << "Tupla creada con exito" << endl;
@@ -191,7 +196,7 @@ TipoRet printdatatable(bd bd, char *NombreTabla)
 {
 	// cout << " - printdatatable " << NombreTabla << endl;
 	if(bd->ts != NULL){
-		if(strcmp(nombreTabla_Tablas(bd->ts), NombreTabla) == 0){
+		if(nombreTabla_Tablas(bd->ts, NombreTabla)){
 			printDataTable_ts (bd->ts, NombreTabla);
 			return OK;
 		}else{	
@@ -208,10 +213,10 @@ TipoRet printdatatable(bd bd, char *NombreTabla)
 TipoRet printTables(bd bd)
 {
 	// cout << " - printTables " << endl;
-	//###################################################-Hacer de nuevo en la seg entrega para que sea en orden-###################################################
-	if(bd->ts != NULL)
+	cout << "Las tablas de la BD son:" << endl;
+	if(bd->ts != NULL){
 		return imprimirTablas(bd->ts);
-	else{
+	}else{
 		cout << "No hay tablas" << endl;
 		return ERROR;
 	}
@@ -244,22 +249,9 @@ bd destroyBD(bd &bd)
 }
 
 //------------------------------------------------Auxiliar------------------------------------------------
-bool colRep_bd(bd &bd, char *nombCol)
+bool colRep_bd(bd &bd, char *nombreTabla,  char *nombCol)
 { 
-	return colRep_ts(bd->ts, nombCol);
-}
-
-bool nombreExistente(bd &bd, char *nombre)
-{
-    if (bd->ts == NULL)
-        return false;
-    else
-    {
-        if (strcmp(nombreTabla_Tablas(bd->ts), nombre) == 0)
-            return true;
-		else
-			return false;
-    }
+	return colRep_ts(bd->ts, nombreTabla, nombCol);
 }
 
 bool esPK_BD(bd &bd, char *nombreTabla, char *NombreCol){

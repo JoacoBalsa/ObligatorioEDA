@@ -1,11 +1,8 @@
 createTable(Personas)
-addCol(Personas, CI, integer, PRIMARY_KEY)
-addCol(Personas, Nombre, string, NOT_EMPTY)
-addCol(Personas, Apellido, string, ANY)
-addCol(Personas, Edad, integer, NOT_EMPTY)
-addCol(Personas, Barrio, string, ANY)
-addCol(Personas, Calle, string, NOT_EMPTY)
-insertInto(Personas, CI:Nombre:Edad:Calle, 1:Juan:18:SantaLucia)
+createTable(Automoviles)
+createTable(Empresas)
+createTable(Gato)
+printTables()
+dropTable(Empresas)
+printTables()
 salir()
-
-// 0 - 1 - 2 - 0 - 2 - 5 - 1 - 0 - 8
