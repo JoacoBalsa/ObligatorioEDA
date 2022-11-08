@@ -31,5 +31,8 @@ int insertarPK (dato &d, tipoDato Tipocol, char *valor);
 bool PK_repetida (dato d, tipoDato tipo, char *valor);
 // devuelve true si el valor se repite en datos.
 
+void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool empty);
+//
+
 
 #endif

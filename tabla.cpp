@@ -21,7 +21,7 @@ struct nodo_tabla
     columna col;
 };
 
-TipoRet crearTabla(tabla &t, char *nombre)
+void crearTabla(tabla &t, char *nombre)
 {
     if (t == NULL)
     {
@@ -29,7 +29,6 @@ TipoRet crearTabla(tabla &t, char *nombre)
         strcpy(t->nom, nombre); 
         t->col = NULL;       
     }
-    return OK;
 }
 
 bool colRep_tabla(tabla t, char *nombCol)

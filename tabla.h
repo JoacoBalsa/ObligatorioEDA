@@ -12,7 +12,7 @@
 
 typedef struct nodo_tabla *tabla;
 
-TipoRet crearTabla(tabla &t, char *nombre);
+void crearTabla(tabla &t, char *nombre); 
 //  Crea una tabla individual vacia con el nombre pasado por parametro.
 //  Pre: la base de datos tiene que estar creada.
 

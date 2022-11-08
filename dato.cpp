@@ -25,20 +25,43 @@ struct nodo_dato
     dato abajo;                                                                                                                                                                                           
 };
 
-/*void insertarDato_d(columna col,dato datos, char *valorTupla){
-    dato d = new(nodo_dato);
-    dato iter = datos;
-    if(datos != NULL) // Si ya hay datos va hasta el final de la lista
-        while(iter->abajo!= NULL)
-            iter = iter->abajo;
-    if (tipo_dato(col) == INT)
-        d->entero = atoi(valorTupla);
+void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool empty){
+    dato iter  = d;
+    int aux = 0;
+    dato var = new (nodo_dato);
+    if (tipo == STRING || empty)
+        if(!empty)
+            strcpy(var->caracter, valor);
+        else
+            strcpy(var->caracter, "EMPTY");
     else
-      strcpy(d->caracter, valorTupla);
-    iter->abajo = d;
-    d->arriba = iter;
-    d->abajo = NULL;
-}*/
+        var->entero = atoi(valor);
+    while(iter->arriba != NULL)
+        iter = iter->arriba;
+    if(pos == 0){
+        var->arriba = NULL;
+        var->abajo = iter;
+        iter->arriba = var;
+    }
+    else if(pos == cantDato(d)){
+        while(iter->abajo != NULL)
+            iter = iter->abajo;
+        var->abajo = NULL;
+        var->arriba = iter;
+        iter->abajo = var;
+    }
+    else {
+        while(aux != pos){
+            aux++;
+            iter = iter->abajo;
+        }
+        var->arriba = iter;
+        var->abajo = iter->abajo;
+        iter->abajo = var;
+    }
+    d = iter;
+    cout << "hola iegue" << endl;
+}
 
 int insertarPK(dato &d, tipoDato tipo, char *valor){
     dato iter = d;

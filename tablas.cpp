@@ -30,7 +30,7 @@ TipoRet crearTablas(tablas &ts, char *nombreTabla)
         ts->t = NULL;
         ts->izq = NULL;
         ts->der = NULL;
-        return crearTabla(ts->t, nombreTabla);
+        crearTabla(ts->t, nombreTabla);
     }else{
         if(strcmp(nombreT(ts->t), nombreTabla) > 0){        //nombreTabla_Tablas(ts, nombreTabla) -> (condicion anterior)
             return crearTablas(ts->izq, nombreTabla);
@@ -40,7 +40,8 @@ TipoRet crearTablas(tablas &ts, char *nombreTabla)
             cout << "No se puede sobreescribir la tabla";
             return ERROR;
         }
-    } 
+    }
+    return OK; 
 }
 
 TipoRet eliminarTablas(tablas ts, char *nombre)
@@ -147,7 +148,7 @@ bool nombreTabla_Tablas(tablas ts, char *nombreTabla)
         return true;
     else if (strcmp(nombreT(ts->t), nombreTabla) > 0)
         return nombreTabla_Tablas(ts->izq, nombreTabla);
-    else if(strcmp(nombreT(ts->t), nombreTabla) < 0)
+    else 
         return nombreTabla_Tablas(ts->der, nombreTabla);
 }
 
