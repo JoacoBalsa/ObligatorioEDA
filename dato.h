@@ -31,8 +31,14 @@ int insertarPK (dato &d, tipoDato Tipocol, char *valor);
 bool PK_repetida (dato d, tipoDato tipo, char *valor);
 // devuelve true si el valor se repite en datos.
 
-void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool empty);
-//
+void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool Hay_valor);
+// Inserta el dato dependiendo del tipo, en caso de que no haya valor inserta EMPTY.
 
+void imprimir_tuplas(dato d, int pos);
+// Imprime las tuplas de una tabla
+
+void imprimir_datos(dato d);
+
+void imprimirPK(dato d, int pos);
 
 #endif

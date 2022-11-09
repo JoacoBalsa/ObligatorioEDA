@@ -67,4 +67,7 @@ bool Tupla_validaTS (tablas &ts, char *nombreTabla, char *columnasTupla, char *v
 void insertarDato_ts(tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla);
 // Pasamanos para insertar una tupla.
 
+tablas buscar_tabla(tablas ts, char *nomTabla);
+// Busca la tabla pasada por parametro en el arbol ts.
+
 #endif

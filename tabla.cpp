@@ -48,6 +48,7 @@ void addColumnat (tabla &t, char *NombreCol, char *tipoCol, CalCol calificadorCo
 void printDataTable_t (tabla &t, char *NombreTabla){
     cout << NombreTabla << endl;
     imprimir_columnas (t->col);
+    imprimir_tuplasCol(t->col);
 }
 
 bool ExistePK_t(tabla t)

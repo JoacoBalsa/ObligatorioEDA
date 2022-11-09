@@ -70,7 +70,10 @@ int insertarPK_col(columna &col, char *columnasTupla, char *valoresTupla);
 bool PK_repetidacol(columna col, char *columnasTupla, char *valoresTupla);
 // Retorna true el valor de valoresTupla para la col PK esta repetido dentro de col.
 
-void Valor_dato_col(columna &col,int  pos, char *columnasTupla, char *valoresTupla, bool empty);
+void Valor_dato_col(columna &col,int  pos, char *columnasTupla, char *valoresTupla, bool Hay_valor);
 // Encuentra el dato de la columna col y lo inserta;
+
+void imprimir_tuplasCol(columna col);
+// Imprime los datos de las columnas col.
 
 #endif

@@ -46,4 +46,5 @@ bool Tupla_validaT(tabla &t, char *columnasTupla, char *valoresTupla);
 void insertarDato_t(tabla &t, char *columnasTupla, char *valoresTupla);
 // Pasamanos para insertar una tupla.
 
+
 #endif

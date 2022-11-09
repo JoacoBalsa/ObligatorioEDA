@@ -48,53 +48,29 @@ TipoRet eliminarTablas(tablas ts, char *nombre)
 {
     ts = eliminar(ts, nombre);
     return OK;
-    /*if(ts->t != NULL){
-        if(nombreTabla_Tablas(ts, nombre)){ // Si existe la tabla
-            tablas aux = ts;
-            while(strcmp(nombreT(aux->t), nombre)!=0){ //Busca la tabla que se le pasa por parametro.
-                if(strcmp(nombreT(aux->t), nombre) < 0)
-                    aux = aux->der;
-                else
-                    aux = aux->izq;
-            }
-            //---------------Encontró la tabla---------------------
-
-            //---------------Eliminó la tabla---------------------
-            cout << "Tabla eliminada correctamente." << endl;
-            return OK;
-        }else{
-            cout << "Nombre Tabla no existe en la base de datos." << endl;   
-            return ERROR;
-        }
-    }else{
-        cout << "No hay tablas para borrar." << endl;
-        return ERROR;
-    }*/
 }
 
 tablas eliminar(tablas ts, char *nombreTabla){
-    if(strcmp(nombreT(ts->t), nombreTabla) > 0){
+    if(strcmp(nombreTabla, nombreT(ts->t)) < 0){
         ts->izq = eliminar(ts->izq, nombreTabla);
         return ts;
-    }else if(strcmp(nombreT(ts->t), nombreTabla) < 0){
+    }else if(strcmp(nombreTabla, nombreT(ts->t)) > 0){
         ts->der = eliminar(ts->der, nombreTabla);
         return ts;
     }else{ // Encontro la tabla a eliminar
         tablas aux;
-        if(ts->izq == NULL && ts->der == NULL){
+        if(ts->izq == NULL && ts->der == NULL){     //  Caso sin hojas/ramas
             delete ts;
             return NULL;
-//---------------------Corregir esto---------------------//
-        }else if(ts->izq == NULL){ // Caso tiene solo rama/hoja a la derecha
+        }else if(ts->izq == NULL && ts->der!=NULL){ // Caso solo rama/hoja a la der
             aux = ts->der;
             delete ts;
-            return NULL;
-        }else if(ts->der == NULL){ // Caso tiene solo rama/hoja a la izquierda
+            return aux;
+        }else if(ts->der == NULL && ts->izq!=NULL){ // Caso solo rama/hoja a la izq
             aux = ts->izq;
             delete ts;
-            return NULL;
-//---------------------Corregir esto---------------------//
-        }else{ // Caso tiene 2 ramas/hojas
+            return aux;
+        }else{                                      // Caso tiene 2 ramas/hojas
             if(profundidad(ts->izq) > profundidad(ts->der))
                 aux = max_izq(ts->izq);
             else
@@ -110,7 +86,7 @@ tablas eliminar(tablas ts, char *nombreTabla){
 tablas max_izq(tablas &ts){
     if(ts->der == NULL){
         tablas aux = ts;
-        ts = ts->der;
+        ts = ts->izq;
         return aux;
     }else
         return max_izq(ts->der);
@@ -154,13 +130,7 @@ bool nombreTabla_Tablas(tablas ts, char *nombreTabla)
 
 bool colRep_ts(tablas ts, char *nombreTabla, char *nombCol)
 {
-    tablas aux = ts;
-    while(strcmp(nombreT(aux->t), nombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), nombreTabla) < 0)
-            aux = aux->der;
-        else
-            aux = aux->izq;
-    }
+    tablas aux = buscar_tabla(ts, nombreTabla);
     return colRep_tabla(aux->t, nombCol);
 }
 
@@ -177,89 +147,52 @@ TipoRet imprimirTablas(tablas ts)
 }
 
 void addColumnats (tablas &ts, char *nombreTabla, char *NombreCol, char *tipoCol, CalCol calificadorCol){
-    tablas aux = ts;
-    while(strcmp(nombreT(aux->t), nombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), nombreTabla) < 0)
-            aux = aux->der;
-        else
-            aux = aux->izq;
-    }
+    tablas aux = buscar_tabla(ts, nombreTabla);
     addColumnat(aux->t, NombreCol, tipoCol, calificadorCol);
 }
 
 void printDataTable_ts (tablas &ts, char *NombreTabla){
-    tablas aux = ts;
-    while(strcmp(nombreT(aux->t), NombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), NombreTabla) < 0)
-            aux = aux->der;
-        else
-            aux = aux->izq;
-    }
+    tablas aux = buscar_tabla(ts, NombreTabla);
     printDataTable_t(aux->t, NombreTabla);
 }
 
 bool ExistePK_ts(tablas ts, char *nombreTabla){
-    tablas aux = ts;
-    while(strcmp(nombreT(aux->t), nombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), nombreTabla) < 0)
-            aux = aux->der;
-        else
-            aux = aux->izq;
-    }
+    tablas aux = buscar_tabla(ts, nombreTabla);
     return ExistePK_t(aux->t);
 }
 
 bool esPK_ts(tablas ts, char *nombreTabla, char *nombreCol){
-    tablas aux = ts;
-    while(strcmp(nombreT(aux->t), nombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), nombreTabla) < 0)
-            aux = aux->der;
-        else
-            aux = aux->izq;
-    }
-	return esPK_t(ts->t, nombreCol);
+    tablas aux = buscar_tabla(ts, nombreTabla);
+	return esPK_t(aux->t, nombreCol);
 }
 
 int cant_colTS(tablas ts,char *NombreTabla){
-    tablas aux = ts;
-    while(strcmp(nombreT(aux->t), NombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), NombreTabla) < 0)
-            aux = aux->der;
-        else
-            aux = aux->izq;
-    }
-    return cant_colT(ts->t);
+    tablas aux = buscar_tabla(ts, NombreTabla);
+    return cant_colT(aux->t);
 }
 
 void dropCol_ts(tablas ts, char *nombreTabla, char *nombreCol){
-    tablas aux = ts;
-    while(strcmp(nombreT(aux->t), nombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), nombreTabla) < 0)
-            aux = aux->der;
-        else
-            aux = aux->izq;
-    }
+    tablas aux = buscar_tabla(ts, nombreTabla);
     eliminarCol_t(aux->t, nombreCol);
 }
 
 bool Tupla_validaTS (tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla){
-    tablas aux = ts;
-    while(strcmp(nombreT(aux->t), nombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), nombreTabla) < 0)
-            aux = aux->der;
-        else
-            aux = aux->izq;
-    }
+    tablas aux = buscar_tabla(ts, nombreTabla);
     return Tupla_validaT(aux->t, columnasTupla, valoresTupla);
 }
 
 void insertarDato_ts(tablas &ts, char *nombreTabla, char *columnasTupla, char *valoresTupla){
+    tablas aux = buscar_tabla(ts, nombreTabla);
+    insertarDato_t(aux->t, columnasTupla, valoresTupla);
+}
+
+tablas buscar_tabla(tablas ts, char *nomTabla){
     tablas aux = ts;
-    while(strcmp(nombreT(aux->t), nombreTabla)!=0){ //Busca la tabla que se le pasa por parametro.
-        if(strcmp(nombreT(aux->t), nombreTabla) < 0)
+    while(strcmp(nombreT(aux->t), nomTabla)!=0){ //Busca la tabla que se le pasa por parametro.
+        if(strcmp(nombreT(aux->t), nomTabla) < 0)
             aux = aux->der;
         else
             aux = aux->izq;
     }
-    insertarDato_t(aux->t, columnasTupla, valoresTupla);
+    return aux;
 }

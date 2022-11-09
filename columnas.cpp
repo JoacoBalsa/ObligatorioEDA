@@ -86,6 +86,25 @@ void imprimir_columnas (columna col){
         cout << iter->nombreCol << endl;
     }
 }
+void imprimir_tuplasCol(columna col){
+    if(col != NULL && col->d != NULL){
+        columna iter = col;
+        int cont = 0, tam = cantDato(iter->d);
+        while(cont < tam){
+            while(iter->ant != NULL)
+                iter = iter->ant;
+            while(iter != NULL){
+                imprimir_tuplas(iter->d, cont);
+                iter = iter->sig;
+                if(iter != NULL)
+                    cout << ":";
+            }
+            iter = col;
+            cont++;
+            cout << endl;
+        }
+    }
+}
 
 bool existe_PK(columna col){
     if(col != NULL){
@@ -258,21 +277,28 @@ bool cantCol_igual_cantVal (char *columnasTupla, char *valoresTupla){
 int insertarPK_col(columna &col, char *columnasTupla, char *valoresTupla){
     columna iter = col;
     char *valores = new char[strlen(valoresTupla)+1], *columnas = new char[strlen(columnasTupla)+1];
-	strcpy(valores, valoresTupla);
-	strcpy(columnas, columnasTupla);
-    char *aux = new(char), *aux2 = new(char);
+    char *aux = new (char), *aux2 = new (char);
+    int poscol = 0, posval = 0;
+    strcpy(valores, valoresTupla);
+    strcpy(columnas, columnasTupla);
     while(iter->ant != NULL)
         iter = iter->ant;
     while(iter->calCol != PRIMARY_KEY)
         iter = iter->sig;
     aux = strtok(columnas, ":");
-    aux2 = strtok(valores, ":");
-    while(strcmp (aux, iter->nombreCol) != 0){
-        columnas = &columnas[strlen(aux) + 1];
-        valores = &valores[strlen(aux2) + 1];
-        aux = strtok(columnas, ":");
-        aux2 = strtok(valores, ":");
+    while(strcmp(iter->nombreCol, aux) != 0){
+        aux = strtok(NULL, ":");
+        poscol++;
     }
+    while(aux != NULL){
+        aux = strtok(NULL, ":");
+    }
+    aux2 = strtok(valores, ":");
+    while(posval < poscol){
+        aux2 = strtok(NULL, ":");
+        posval++;
+    }
+    cout << "A la columna " << iter->nombreCol << " ingresa " << aux2 << endl;  
     return insertarPK(iter->d, iter->tipoCol, aux2);
 }
 
@@ -281,51 +307,52 @@ void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla){
     strcpy(valores, valoresTupla);
     strcpy(columnas, columnasTupla);
     columna iter = col;
-    int cont = 0, pos, tam = cant_col(iter), i = 0;
-    bool columnas_con_Dato[tam];
-    while(iter->ant != NULL)
-        iter = iter->ant;
-    while(iter != NULL && cont < tam){
-        columnas_con_Dato[cont] = PasanCol(iter, columnas);
-        iter = iter->sig;
-        cont++;
-    }
+    int pos;
     iter = col;
     pos = insertarPK_col(iter, columnas, valores);
-    cout << columnasTupla << endl;
+    cout << "La posicion en la que se ingreso es " << pos << endl;
     while(iter->ant != NULL)
         iter = iter->ant;
+    /*while(iter->calCol != PRIMARY_KEY){
+        iter = iter->sig;
+    }
+    imprimir_datos(iter->d);*/
     while(iter != NULL){
         strcpy(valores, valoresTupla);
         strcpy(columnas, columnasTupla);
-        if(iter->calCol != PRIMARY_KEY){
-            cout << iter->nombreCol << endl;
-            Valor_dato_col(iter, pos, columnas, valores, columnas_con_Dato[i]);
-        }
-        i++;
+        if(iter->calCol != PRIMARY_KEY)
+            Valor_dato_col(iter, pos, columnas, valores, PasanCol(iter, columnas));
         iter = iter->sig;
     }
 }
 
-void Valor_dato_col(columna &col,int  pos, char *columnasTupla, char *valoresTupla, bool empty){
+void Valor_dato_col(columna &col,int  pos, char *columnasTupla, char *valoresTupla, bool Hay_valor){
     char *valores = new char[strlen(valoresTupla)+1], *columnas = new char[strlen(columnasTupla)+1];
     strcpy(valores, valoresTupla);
     strcpy(columnas, columnasTupla);
-    cout << columnas << endl;
-    cout << valores << endl;
-    char *aux = new (char), *aux2 = new (char);
-    cout << "hasta aca todo bien"<< endl;
-    aux = strtok(columnas, ":");
-    aux2 = strtok(valores, ":");
-    while(strcmp (aux, col->nombreCol) != 0){
-        columnas = &columnas[strlen(aux) + 1];
-        valores = &valores[strlen(aux2) + 1];
-        cout <<"aca llego"<< endl;
+    if(Hay_valor){
+        char *aux = new (char), *aux2 = new (char);
+        int poscol = 0, posval = 0;
         aux = strtok(columnas, ":");
+        while(strcmp(col->nombreCol, aux) != 0){
+            aux = strtok(NULL, ":");
+            poscol++;
+        }
+        while(aux != NULL){
+            aux = strtok(NULL, ":");
+        }
         aux2 = strtok(valores, ":");
+        while(posval < poscol){
+            aux2 = strtok(NULL, ":");
+            posval++;
+        }
+        cout << "a la columna " << col->nombreCol << " le inserto el valor " << aux2 << endl; 
+        insertarDato(col->d, col->tipoCol, pos, aux2, Hay_valor);
     }
-    cout<< "inserto en la columna: " << aux << "El valor: " << aux2; 
-    insertarDato(col->d, col->tipoCol, pos, aux2, empty);
+    else{
+        cout << "a la columna " << col->nombreCol << " le inserto el valor EMPTY" << endl; 
+        insertarDato(col->d, col->tipoCol, pos, valores, Hay_valor);
+    }
 }
 
 bool PasanCol(columna col, char *columnasTupla){
