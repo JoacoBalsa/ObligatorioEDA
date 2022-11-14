@@ -31,14 +31,12 @@ void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool Hay_valor){
     dato var = new (nodo_dato);
     var->tipo = tipo;
     if (tipo == STRING){
-        cout << "tipo == string" << endl;
         if(Hay_valor)
             strcpy(var->caracter, valor);
         else
             strcpy(var->caracter, "EMPTY");
     }
     else{
-        cout << "tipo == int" << endl;
         if(Hay_valor)
             var->entero = atoi(valor);
         else
@@ -48,14 +46,11 @@ void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool Hay_valor){
         while(iter->arriba != NULL)
             iter = iter->arriba;
         if(pos == 0){
-            cout << "if pos == 0 " << endl;
             var->arriba = NULL;
             var->abajo = iter;
             iter->arriba = var;
         }
         else if(pos == cantDato(d)){
-            cout << "pos == cantDato(d)" << endl;
-            cout << pos << " == " << cantDato(d) << endl;
             while(iter->abajo != NULL)
                 iter = iter->abajo;
             var->abajo = NULL;
@@ -63,7 +58,6 @@ void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool Hay_valor){
             iter->abajo = var;
         }
         else {
-            cout << "Entra aca " << endl;
             while(aux != pos){
                 aux++;
                 iter = iter->abajo;
@@ -104,8 +98,6 @@ int insertarPK(dato &d, tipoDato tipo, char *valor){
     while(iter != NULL){
         if(iter->entero > var->entero || (strcmp(iter->caracter, var->caracter)>0)|| iter->abajo == NULL){
             if(iter->arriba == NULL && (iter->entero > var->entero || strcmp(iter->caracter, var->caracter)>0)){
-                cout << "iter->arriba == NULL && iter->entero > var->entero" << endl;
-                cout << iter->entero << " > " << var->entero << endl;
                 var->arriba = NULL;
                 var->abajo = iter;
                 iter->arriba = var;
@@ -113,7 +105,6 @@ int insertarPK(dato &d, tipoDato tipo, char *valor){
                 return cont;
             }
             else if(iter->abajo == NULL && (iter->entero < var->entero || strcmp(iter->caracter, var->caracter) < 0)){
-                cout << "iter->abajo == NULL && iter->entero < var->entero" << endl;
                 var->abajo = NULL;
                 var->arriba = iter;
                 iter->abajo = var;
@@ -121,7 +112,6 @@ int insertarPK(dato &d, tipoDato tipo, char *valor){
                 return cont+1;
             }
             else if (iter->entero > var->entero || strcmp(iter->caracter, var->caracter)>0){
-                cout << "iter->entero > var->entero" << endl;
                 var->arriba = iter->arriba;
                 var->abajo = iter;
                 iter->arriba->abajo = var;
@@ -204,4 +194,15 @@ void imprimir_tuplas(dato d, int pos){
     }
 }
 
-
+void deleteDatos(dato d){
+    dato iter = d, aux;
+    if(iter != NULL){
+        while(iter->abajo != NULL)
+            iter = iter->abajo;
+        while(iter != NULL){
+            aux = iter;
+            iter = iter->arriba;
+            delete aux;
+        }
+    }
+}

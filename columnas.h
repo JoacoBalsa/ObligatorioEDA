@@ -76,4 +76,14 @@ void Valor_dato_col(columna &col,int  pos, char *columnasTupla, char *valoresTup
 void imprimir_tuplasCol(columna col);
 // Imprime los datos de las columnas col.
 
+void eliminarTupla_col(columna col, char *condicionEliminar);
+// Elimina todas las tuplas de una tabla que cumplan con la condición pasada por parametro.
+
+void buscar_operador(char *operador, char *condicionEliminar);
+// Se asume que en condicionEliminar hay un operador valido.
+// Si se quiere eliminar todas las tuplas hay que pasar por parametro un # en vez de "".
+
+bool eliminarTupla_valida(columna col, char *condicionEliminar);
+// Se fija si es valido eliminar la columna.
+
 #endif

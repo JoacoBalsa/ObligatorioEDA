@@ -86,3 +86,14 @@ bool Tupla_validaT(tabla &t, char *columnasTupla, char *valoresTupla){
 void insertarDato_t(tabla &t, char *columnasTupla, char *valoresTupla){
     insertarDato_col(t->col, columnasTupla, valoresTupla);
 }
+
+void eliminarTupla_t(tabla t, char *condicionEliminar){
+    eliminarTupla_col(t->col, condicionEliminar);
+}
+
+bool eliminarTupla_valida_t(tabla t, char *condicionEliminar){
+    if(t->col != NULL)
+        return eliminarTupla_valida(t->col, condicionEliminar);
+    else
+        return false;
+}

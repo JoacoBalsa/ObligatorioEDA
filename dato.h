@@ -41,4 +41,7 @@ void imprimir_datos(dato d);
 
 void imprimirPK(dato d, int pos);
 
+void deleteDatos(dato d);
+//Elimina todos los datos de una columna.
+
 #endif

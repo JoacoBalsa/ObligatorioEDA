@@ -57,7 +57,6 @@ char *nombreColumna(columna col)
     return col->nombreCol;
 }
 
-
 bool colRep(columna col, char *nombCol){
     if(col != NULL){
         columna iter = col;
@@ -86,6 +85,7 @@ void imprimir_columnas (columna col){
         cout << iter->nombreCol << endl;
     }
 }
+
 void imprimir_tuplasCol(columna col){
     if(col != NULL && col->d != NULL){
         columna iter = col;
@@ -158,7 +158,7 @@ columna eliminarCol(columna col, char *nombreCol){
     while (strcmp(iter->nombreCol, nombreCol) != 0){
         iter = iter->sig;
     }
-    //deleteDatos_col(iter);
+    deleteDatos(iter->d);
     if(iter->ant == NULL && iter->sig == NULL){     //  Caso de una sola columna.
         delete iter;
         return NULL;
@@ -185,14 +185,14 @@ columna eliminarCol(columna col, char *nombreCol){
 
 bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
     columna iter = col;
-    while(iter->ant != NULL)
+    while(iter->ant != NULL) // Va hasta la primera columna.
         iter = iter->ant;
-    if(!valor_PK(iter, columnasTupla))
+    if(!valor_PK(iter, columnasTupla)) // Si no se pasa un valor para la PRIMARY_KEY retorna false.
         return false;
-    if(PK_repetidacol(iter, columnasTupla, valoresTupla))
+    if(PK_repetidacol(iter, columnasTupla, valoresTupla)) // Si ya hay una tupla con ese valor de PRIMARY_KEY retorna false. 
         return false;
-    if(cantCol_igual_cantVal(columnasTupla, valoresTupla)){
-        while(iter->sig != NULL){
+    if(cantCol_igual_cantVal(columnasTupla, valoresTupla)){ // Se fija que la cant de columans pasadas por parametro es igual a la 
+        while(iter->sig != NULL){                           // cant de valores.
             if(!tupla_valida_para_columna(iter, columnasTupla))
                 return false;
             else
@@ -298,7 +298,6 @@ int insertarPK_col(columna &col, char *columnasTupla, char *valoresTupla){
         aux2 = strtok(NULL, ":");
         posval++;
     }
-    cout << "A la columna " << iter->nombreCol << " ingresa " << aux2 << endl;  
     return insertarPK(iter->d, iter->tipoCol, aux2);
 }
 
@@ -308,15 +307,9 @@ void insertarDato_col(columna &col, char *columnasTupla, char *valoresTupla){
     strcpy(columnas, columnasTupla);
     columna iter = col;
     int pos;
-    iter = col;
     pos = insertarPK_col(iter, columnas, valores);
-    cout << "La posicion en la que se ingreso es " << pos << endl;
     while(iter->ant != NULL)
         iter = iter->ant;
-    /*while(iter->calCol != PRIMARY_KEY){
-        iter = iter->sig;
-    }
-    imprimir_datos(iter->d);*/
     while(iter != NULL){
         strcpy(valores, valoresTupla);
         strcpy(columnas, columnasTupla);
@@ -346,11 +339,9 @@ void Valor_dato_col(columna &col,int  pos, char *columnasTupla, char *valoresTup
             aux2 = strtok(NULL, ":");
             posval++;
         }
-        cout << "a la columna " << col->nombreCol << " le inserto el valor " << aux2 << endl; 
         insertarDato(col->d, col->tipoCol, pos, aux2, Hay_valor);
     }
     else{
-        cout << "a la columna " << col->nombreCol << " le inserto el valor EMPTY" << endl; 
         insertarDato(col->d, col->tipoCol, pos, valores, Hay_valor);
     }
 }
@@ -393,4 +384,62 @@ bool valor_PK (columna col, char *columnasTupla){
 
 tipoDato tipo_dato(columna col){
     return col->tipoCol;
+}
+
+void eliminarTupla_col(columna col, char *condicionEliminar){
+    char *nomCol = new(char), *operador = new(char), *valor = new(char), *aux = new char[strlen(condicionEliminar)+1];
+    columna iter = col;
+    strcpy(aux, condicionEliminar);
+    buscar_operador(operador, condicionEliminar);
+    nomCol = strtok(aux, operador);
+    while(iter->ant != NULL)// Va hasta la primera columna. 
+        iter = iter->ant;
+    if(strcmp(operador, "#") != 0){
+        while(strcmp(iter->nombreCol, nomCol) != 0)// Busca la columna con el dato a eliminar.
+            iter = iter->sig;
+    }
+    valor = strtok(NULL, operador);
+    cout << "El valor es " << valor << endl;
+    //eliminarTupla(iter->d, )
+}
+
+void buscar_operador(char *operador, char *condicionEliminar)
+{
+    char *aux = new char[strlen(condicionEliminar)+1];
+    strcpy(aux, condicionEliminar);
+    if(strstr(aux, "=") != NULL)
+        strcpy(operador, "=");
+    else if(strstr(aux, "!") != NULL)
+        strcpy(operador, "!");
+    else if(strstr(aux, "<") != NULL)
+        strcpy(operador, "<");
+    else if(strstr(aux, ">") != NULL)
+        strcpy(operador, ">");
+    else
+        strcpy(operador, "#");
+}
+
+bool eliminarTupla_valida(columna col, char *condicionEliminar)
+{
+    char *operador = new(char), *aux = new char[strlen(condicionEliminar)+1], *token = new(char);
+    columna iter = col;
+    strcpy(aux, condicionEliminar);
+    buscar_operador(operador, aux);
+    token = strtok(aux, operador);
+    while(iter->ant != NULL){
+        iter = iter->ant;
+    }
+    if(strcmp(operador, "#") != 0){
+        while(iter->sig != NULL || strcmp(token, iter->nombreCol) != 0)
+            iter = iter->sig;
+        if(iter == NULL){
+            cout << "El nombre de la columna pasado por parametro no existe en la tabla" << endl;
+            return false;
+        }
+    }
+    else if(iter->d == NULL){
+        cout << "No hay datos para borrar en la columna" << endl;
+        return false;
+    }
+    return true;
 }

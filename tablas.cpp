@@ -196,3 +196,13 @@ tablas buscar_tabla(tablas ts, char *nomTabla){
     }
     return aux;
 }
+
+void eliminarTupla_ts(tablas ts, char *nombreTabla, char *condicionEliminar){
+    tablas aux = buscar_tabla(ts, nombreTabla);
+    eliminarTupla_t(aux->t, condicionEliminar);
+}
+
+bool eliminarTupla_valida_ts(tablas ts, char *nombreTabla, char *condicionEliminar){
+    tablas aux = buscar_tabla(ts, nombreTabla);
+    return eliminarTupla_valida_t(aux->t, condicionEliminar);
+}

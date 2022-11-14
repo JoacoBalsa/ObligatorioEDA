@@ -70,4 +70,9 @@ void insertarDato_ts(tablas &ts, char *nombreTabla, char *columnasTupla, char *v
 tablas buscar_tabla(tablas ts, char *nomTabla);
 // Busca la tabla pasada por parametro en el arbol ts.
 
+void eliminarTupla_ts(tablas ts, char *nombreTabla, char *condicionEliminar);
+// Pasamanos para eliminar tupla.
+
+bool eliminarTupla_valida_ts(tablas ts,char *nombreTabla, char *condicionEliminar);
+
 #endif
