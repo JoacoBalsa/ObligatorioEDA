@@ -183,6 +183,30 @@ columna eliminarCol(columna col, char *nombreCol){
     }
 }
 
+bool Existe_col (columna col, char *Columnas){
+    columna iter = col;
+    char *aux = new char[strlen(Columnas)+1];
+    strcpy(aux, Columnas);
+    char *columna = new(char);
+    columna = strtok(aux, ":");
+    while(columna != NULL){
+        while(iter->ant != NULL)
+            iter = iter->ant;
+        while(iter != NULL && strcmp(iter->nombreCol, columna) != 0){
+            iter = iter->sig;
+        }
+        if(iter == NULL){
+            cout << columna << " no existe en la tabla" << endl;
+            return false;
+        }
+        else{
+            columna = strtok(NULL, ":");
+            iter = col;
+        }
+    }
+    return true;
+}
+
 bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
     columna iter = col;
     while(iter->ant != NULL) // Va hasta la primera columna.
@@ -190,6 +214,8 @@ bool Tupla_valida(columna col, char *columnasTupla, char *valoresTupla){
     if(!valor_PK(iter, columnasTupla)) // Si no se pasa un valor para la PRIMARY_KEY retorna false.
         return false;
     if(PK_repetidacol(iter, columnasTupla, valoresTupla)) // Si ya hay una tupla con ese valor de PRIMARY_KEY retorna false. 
+        return false;
+    if(!Existe_col(iter, columnasTupla)) // Se fija que todas las columnas pasadas por parametro sean parte de las columnas
         return false;
     if(cantCol_igual_cantVal(columnasTupla, valoresTupla)){ // Se fija que la cant de columans pasadas por parametro es igual a la 
         while(iter->sig != NULL){                           // cant de valores.
@@ -386,9 +412,10 @@ tipoDato tipo_dato(columna col){
     return col->tipoCol;
 }
 
-void eliminarTupla_col(columna col, char *condicionEliminar){
+void eliminarTupla_col(columna &col, char *condicionEliminar){
     char *nomCol = new(char), *operador = new(char), *valor = new(char), *aux = new char[strlen(condicionEliminar)+1];
-    columna iter = col;
+    columna iter = col, borro;
+    int pos;
     strcpy(aux, condicionEliminar);
     buscar_operador(operador, condicionEliminar);
     nomCol = strtok(aux, operador);
@@ -399,12 +426,32 @@ void eliminarTupla_col(columna col, char *condicionEliminar){
             iter = iter->sig;
     }
     valor = strtok(NULL, operador);
-    cout << "El valor es " << valor << endl;
-    //eliminarTupla(iter->d, )
-}
+    if(strcmp(operador, "#") != 0){
+        pos = posicion_tupla(iter->d, valor, operador);
+        while(pos != -1){
+            borro = col;
+            while(borro->ant != NULL)
+                borro = borro->ant;
+            while(borro != NULL){
+                eliminarTupla(borro->d, pos); //Elimina la tupla encontrada.
+                borro = borro->sig;
+            }
+            pos = posicion_tupla(iter->d, valor, operador); // Busca si hay otra tupla que cumpla con la condicion.
+        }
+    }else{
+        while(iter->d != NULL){
+            while(iter->ant != NULL)
+                iter = iter->ant;
+            while(iter != NULL){
+                eliminarTupla(iter->d, 0);
+                iter = iter->sig;
+            }
+            iter = col;
+        }
+    }
+}   
 
-void buscar_operador(char *operador, char *condicionEliminar)
-{
+void buscar_operador(char *operador, char *condicionEliminar){
     char *aux = new char[strlen(condicionEliminar)+1];
     strcpy(aux, condicionEliminar);
     if(strstr(aux, "=") != NULL)
@@ -419,8 +466,7 @@ void buscar_operador(char *operador, char *condicionEliminar)
         strcpy(operador, "#");
 }
 
-bool eliminarTupla_valida(columna col, char *condicionEliminar)
-{
+bool eliminarTupla_valida(columna col, char *condicionEliminar){
     char *operador = new(char), *aux = new char[strlen(condicionEliminar)+1], *token = new(char);
     columna iter = col;
     strcpy(aux, condicionEliminar);
@@ -430,16 +476,80 @@ bool eliminarTupla_valida(columna col, char *condicionEliminar)
         iter = iter->ant;
     }
     if(strcmp(operador, "#") != 0){
-        while(iter->sig != NULL || strcmp(token, iter->nombreCol) != 0)
+        while(iter != NULL && strcmp(token, iter->nombreCol) != 0){
             iter = iter->sig;
+        }
         if(iter == NULL){
-            cout << "El nombre de la columna pasado por parametro no existe en la tabla" << endl;
             return false;
         }
     }
     else if(iter->d == NULL){
-        cout << "No hay datos para borrar en la columna" << endl;
         return false;
     }
     return true;
+}
+void printMetadata_col(columna col){
+    columna iter = col;
+    while(iter->ant != NULL)
+        iter = iter->ant;
+    while(iter != NULL){
+        cout << iter->nombreCol << " -> Tipo de Dato: ";
+            if(iter->tipoCol==0)
+                cout << "INTEGER";
+            else
+                cout << "STRING";
+        cout << ", Calificador: ";
+            if(iter->calCol==0)
+                cout << "NOT_EMPTY" << endl;
+            else if(iter->calCol==1)
+                cout << "PRIMARY_KEY" << endl;
+            else    
+                cout << "ANY" << endl;
+        iter=iter->sig;
+    }
+}
+
+bool Columnas_pertenecen(columna col, char *nomColumnas){
+    if(Existe_col(col, nomColumnas))
+        return true;
+    else
+        return false;
+}
+
+void select(columna T1col, columna &T2col, char *nomColumnas){
+    columna iter1 = T1col;
+    char *Columnas = new char[strlen(nomColumnas)+1];
+    char *aux = new(char);
+    strcpy(Columnas, nomColumnas);
+    aux = strtok(Columnas, ":");
+    while(aux != NULL){
+        while(iter1->ant != NULL) // Va hasta el principio de las columnas.
+            iter1 = iter1->ant;
+        while(strcmp(iter1->nombreCol, aux) != 0) // Sale cuando encuentra el nombre.
+            iter1 = iter1->sig;
+        T2col = CopyCol(iter1, T2col);
+        aux = strtok(NULL, ":");
+    }
+
+}
+
+columna CopyCol(columna col1, columna col2){
+    columna nuevaCol = new (nodo_columna);
+    nuevaCol->nombreCol = new char[NOM];
+    strcpy(nuevaCol->nombreCol, col1->nombreCol);
+    nuevaCol->tipoCol = col1->tipoCol;
+    nuevaCol->calCol = col1->calCol;
+    nuevaCol->d = col1->d;
+    nuevaCol->sig = NULL;
+
+    if(col2 == NULL)                         // Si nuevaCol es la primera columna de la tabla.
+        nuevaCol->ant = NULL;
+    else{                                   // Si ya hay columnas en la tabla. 
+        columna iter = col2;
+        while(iter->sig != NULL)
+            iter = iter->sig;
+        iter->sig = nuevaCol;
+        nuevaCol->ant = iter;
+    }
+    return nuevaCol;
 }

@@ -41,7 +41,13 @@ void imprimir_datos(dato d);
 
 void imprimirPK(dato d, int pos);
 
-void deleteDatos(dato d);
+void deleteDatos(dato &d);
 //Elimina todos los datos de una columna.
+
+int posicion_tupla(dato d, char *valor, char *operador);
+// Devuelve la posicion de la tupla a eliminar en caso de no haber ninguna retorna -1.
+
+void eliminarTupla(dato &d, int pos);
+// Elimina la tupla en la posicion pos.
 
 #endif

@@ -70,9 +70,17 @@ void insertarDato_ts(tablas &ts, char *nombreTabla, char *columnasTupla, char *v
 tablas buscar_tabla(tablas ts, char *nomTabla);
 // Busca la tabla pasada por parametro en el arbol ts.
 
-void eliminarTupla_ts(tablas ts, char *nombreTabla, char *condicionEliminar);
+void eliminarTupla_ts(tablas &ts, char *nombreTabla, char *condicionEliminar);
 // Pasamanos para eliminar tupla.
 
 bool eliminarTupla_valida_ts(tablas ts,char *nombreTabla, char *condicionEliminar);
+// Retorna true si la tupla es valida para poder eliminar.
+
+void printMetadata_ts(tablas ts, char *nombreTabla);
+// Pasamanos para printMetadata.
+
+void select_ts(tablas &ts, char *nomTabla1, char *nomColumnas, char *nomTabla2 );
+
+bool Columnas_pertenecen_TS(tablas ts, char *nomTabla1, char *nomColumnas);
 
 #endif

@@ -76,7 +76,7 @@ void Valor_dato_col(columna &col,int  pos, char *columnasTupla, char *valoresTup
 void imprimir_tuplasCol(columna col);
 // Imprime los datos de las columnas col.
 
-void eliminarTupla_col(columna col, char *condicionEliminar);
+void eliminarTupla_col(columna &col, char *condicionEliminar);
 // Elimina todas las tuplas de una tabla que cumplan con la condición pasada por parametro.
 
 void buscar_operador(char *operador, char *condicionEliminar);
@@ -85,5 +85,18 @@ void buscar_operador(char *operador, char *condicionEliminar);
 
 bool eliminarTupla_valida(columna col, char *condicionEliminar);
 // Se fija si es valido eliminar la columna.
+
+void printMetadata_col(columna col);
+// Imprime el esquema de una tabla.
+
+bool Existe_col (columna col, char *Columnas);
+// Se fija que en columnas no haya columnas de mas.
+
+bool Columnas_pertenecen(columna col, char *nomColumnas);
+
+void select(columna T1col, columna &T2col, char *nomColumnas);
+
+columna CopyCol(columna col1, columna col2);
+// Copia la columna 1 a la columna 2.
 
 #endif

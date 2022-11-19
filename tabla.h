@@ -46,8 +46,17 @@ bool Tupla_validaT(tabla &t, char *columnasTupla, char *valoresTupla);
 void insertarDato_t(tabla &t, char *columnasTupla, char *valoresTupla);
 // Pasamanos para insertar una tupla.
 
-void eliminarTupla_t(tabla t, char *condicionEliminar);
+void eliminarTupla_t(tabla &t, char *condicionEliminar);
+// Pasamanos para eliminar tupla.
 
 bool eliminarTupla_valida_t(tabla t, char *condicionEliminar);
+// Pasamanos para eliminarTupla_valida.
+
+void printMetadata_t(tabla t);
+// Imprime el esquema de una tabla.
+
+bool Columnas_pertenecen_T(tabla t, char *nomColumnas);
+
+void select_t(tabla T1, tabla &T2, char *nomColumnas);
 
 #endif

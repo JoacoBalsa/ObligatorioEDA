@@ -87,7 +87,7 @@ void insertarDato_t(tabla &t, char *columnasTupla, char *valoresTupla){
     insertarDato_col(t->col, columnasTupla, valoresTupla);
 }
 
-void eliminarTupla_t(tabla t, char *condicionEliminar){
+void eliminarTupla_t(tabla &t, char *condicionEliminar){
     eliminarTupla_col(t->col, condicionEliminar);
 }
 
@@ -97,3 +97,23 @@ bool eliminarTupla_valida_t(tabla t, char *condicionEliminar){
     else
         return false;
 }
+
+void printMetadata_t(tabla t){
+    cout << t->nom << endl;
+    if(t->col != NULL)
+        printMetadata_col(t->col);
+}
+
+bool Columnas_pertenecen_T(tabla t, char *nomColumnas){
+    if(t->col != NULL){
+        return Columnas_pertenecen(t->col, nomColumnas);
+    }
+    else
+        return false;
+}
+
+void select_t(tabla T1, tabla &T2, char *nomColumnas){
+    select(T1->col, T2->col, nomColumnas);
+}
+
+

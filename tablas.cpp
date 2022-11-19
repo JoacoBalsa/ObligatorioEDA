@@ -23,8 +23,7 @@ struct nodo_tablas
     tablas der;
 };
 
-TipoRet crearTablas(tablas &ts, char *nombreTabla)
-{
+TipoRet crearTablas(tablas &ts, char *nombreTabla){
     if (ts == NULL){
         ts = new (nodo_tablas);
         ts->t = NULL;
@@ -44,8 +43,7 @@ TipoRet crearTablas(tablas &ts, char *nombreTabla)
     return OK; 
 }
 
-TipoRet eliminarTablas(tablas ts, char *nombre)
-{
+TipoRet eliminarTablas(tablas ts, char *nombre){
     ts = eliminar(ts, nombre);
     return OK;
 }
@@ -115,9 +113,8 @@ int max(int a, int b){
         return b;
 }
 
-bool nombreTabla_Tablas(tablas ts, char *nombreTabla) 
+bool nombreTabla_Tablas(tablas ts, char *nombreTabla){
 // Retorna True si hay una tabla nombreTabla en ts
-{
     if(ts == NULL)
         return false;
     else if(strcmp(nombreT(ts->t), nombreTabla) == 0)
@@ -197,7 +194,7 @@ tablas buscar_tabla(tablas ts, char *nomTabla){
     return aux;
 }
 
-void eliminarTupla_ts(tablas ts, char *nombreTabla, char *condicionEliminar){
+void eliminarTupla_ts(tablas &ts, char *nombreTabla, char *condicionEliminar){
     tablas aux = buscar_tabla(ts, nombreTabla);
     eliminarTupla_t(aux->t, condicionEliminar);
 }
@@ -205,4 +202,19 @@ void eliminarTupla_ts(tablas ts, char *nombreTabla, char *condicionEliminar){
 bool eliminarTupla_valida_ts(tablas ts, char *nombreTabla, char *condicionEliminar){
     tablas aux = buscar_tabla(ts, nombreTabla);
     return eliminarTupla_valida_t(aux->t, condicionEliminar);
+}
+
+void printMetadata_ts(tablas ts, char *nombreTabla){
+    tablas aux = buscar_tabla(ts, nombreTabla);
+    printMetadata_t(aux->t);
+}
+
+void select_ts(tablas &ts, char *Tabla1, char *nomColumnas, char *Tabla2){
+    tablas T1 = buscar_tabla(ts, Tabla1), T2 = buscar_tabla(ts, Tabla2);
+    select_t(T1->t, T2->t, nomColumnas);
+}
+
+bool Columnas_pertenecen_TS(tablas ts, char *nomTabla1, char *nomColumnas){
+    tablas aux = buscar_tabla(ts, nomTabla1);
+    return Columnas_pertenecen_T(aux->t, nomColumnas);
 }

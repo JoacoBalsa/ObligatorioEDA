@@ -194,7 +194,7 @@ void imprimir_tuplas(dato d, int pos){
     }
 }
 
-void deleteDatos(dato d){
+void deleteDatos(dato &d){
     dato iter = d, aux;
     if(iter != NULL){
         while(iter->abajo != NULL)
@@ -203,6 +203,137 @@ void deleteDatos(dato d){
             aux = iter;
             iter = iter->arriba;
             delete aux;
+        }
+    }
+}
+
+void eliminarTupla(dato &d, int pos){
+    if(d != NULL){
+        dato iter = d, aux;
+        while(iter->arriba != NULL){
+            iter = iter->arriba;
+        }
+        while(pos != 0){
+            iter = iter->abajo;
+            pos--;
+        }
+        if(iter->arriba == NULL && iter->abajo == NULL){ // Caso hay una sola tupla.
+            aux = iter;
+            iter = NULL;
+        }
+        else if(iter->arriba == NULL){ // Caso la tupla a eliminar es la primera.
+            aux = iter;
+            iter = iter->abajo;
+            iter->arriba = NULL;
+        }
+        else if(iter->abajo == NULL){ // Caso la tupla a eliminar es la ultima.
+            aux = iter;
+            iter = iter->arriba;
+            iter->abajo = NULL;
+        }
+        else{ // Caso la tupla a eliminar esta en el medio.
+            aux = iter;
+            iter->arriba->abajo = iter->abajo;
+            iter->abajo->arriba = iter->arriba;
+            iter = iter->arriba;
+        }
+        d = iter;
+        delete aux;
+    }
+}
+
+int posicion_tupla(dato d, char *valor, char *operador){
+    if(d == NULL)
+        return -1;
+    dato iter = d;
+    int cont = 0;
+    while(iter->arriba != NULL){
+        iter = iter->arriba;
+    }
+    if(strcmp(operador, ">") == 0){
+        if(iter->tipo == INT){
+            while(iter != NULL && iter->entero <= atoi(valor)){
+                iter = iter->abajo;
+                cont++;
+            }
+            if(iter == NULL)
+                return -1;
+            else
+                return cont;
+        }
+        else{
+            while(iter != NULL && (strcmp(iter->caracter, valor) <= 0)){
+                iter = iter->abajo;
+                cont++;
+            }
+            if (iter == NULL)
+                return -1;
+            else
+                return cont;
+        }
+    }else if(strcmp(operador, "<") == 0){
+        if(iter->tipo == INT){
+            while(iter != NULL && iter->entero >= atoi(valor)){
+                iter = iter->abajo;
+                cont++;
+            }
+            if(iter == NULL)
+                return -1;
+            else
+                return cont;
+        }
+        else{
+            while(iter != NULL && (strcmp(iter->caracter, valor) >= 0)){
+                iter = iter->abajo;
+                cont++;
+            }
+            if (iter == NULL)
+                return -1;
+            else
+                return cont;
+        }
+    }else if(strcmp(operador, "!") == 0){
+        if(iter->tipo == INT && (strcmp(valor, "EMPTY") != 0)){
+            while(iter != NULL && iter->entero == atoi(valor)){
+                iter = iter->abajo;
+                cont++;
+            }
+            if(iter == NULL)
+                return -1;
+            else
+                return cont;
+        }
+        else{
+            while(iter != NULL && (strcmp(iter->caracter, valor) == 0)){
+                iter = iter->abajo;
+                cont++;
+            }
+            if (iter == NULL)
+                return -1;
+            else
+                return cont;
+        }
+    }else{
+        if(iter->tipo == INT && (strcmp(valor, "EMPTY") != 0)){
+            while( (iter != NULL) && (iter->entero != atoi(valor))){
+                cout<< iter->entero << " != " << valor << endl;
+                iter = iter->abajo;
+                cont++;
+            }
+            if(iter == NULL)
+                return -1;
+            else
+                return cont;
+        }
+        else{
+            while(iter != NULL && (strcmp(iter->caracter, valor) != 0)){
+                iter = iter->abajo;
+                cont++;
+            }
+            if (iter == NULL)
+                return -1;
+            else
+                return cont;
         }
     }
 }

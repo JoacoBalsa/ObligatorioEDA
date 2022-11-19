@@ -19,7 +19,6 @@ struct nodo_bd
 	tablas ts;
 };
 
-/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 bd createBD()
 {
 	bd base = new (nodo_bd);
@@ -144,10 +143,10 @@ TipoRet insertInto(bd &bd, char *nombreTabla, char *columnasTupla, char *valores
 TipoRet deleteFrom(bd &bd, char *nombreTabla, char *condicionEliminar)
 {
 	// cout << " - deletefrom " << nombreTabla << " " << condicionEliminar << endl;;
-	if(nombreTabla_Tablas(bd->ts, nombreTabla)){ //Terminar este if
-		if(eliminarTupla_valida_ts(bd->ts, nombreTabla, condicionEliminar))
+	if(nombreTabla_Tablas(bd->ts, nombreTabla)){ 
+		if(eliminarTupla_valida_ts(bd->ts, nombreTabla, condicionEliminar)){
 			eliminarTupla_ts(bd->ts, nombreTabla, condicionEliminar);
-		else
+		}else
 			return ERROR;
 	}
 	else{
@@ -162,7 +161,6 @@ TipoRet update(bd &bd, char *nombreTabla, char *condicionModificar, char *column
 	// cout << " - update " << nombreTabla << " " << condicionModificar << " " << columnaModificar << " " << valorModificar << endl;
 	return NO_IMPLEMENTADA;
 }
-/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 
 TipoRet selectWhere(bd &bd, char *nomTabla1, char *condicion, char *nomTabla2)
 {
@@ -173,7 +171,24 @@ TipoRet selectWhere(bd &bd, char *nomTabla1, char *condicion, char *nomTabla2)
 TipoRet select(bd &bd, char *nomTabla1, char *nomColumnas, char *nomTabla2)
 {
 	// cout << " - select " << nomTabla1 << " " << nomColumnas << " " << nomTabla2 << endl;
-	return NO_IMPLEMENTADA;
+	if(nombreTabla_Tablas(bd->ts, nomTabla1)){
+		if(!nombreTabla_Tablas(bd->ts, nomTabla2)){						// Si no existe la tabla 2
+			if(Columnas_pertenecen_TS(bd->ts, nomTabla1, nomColumnas)){	// Si las columnas pertenecen a Tabla1
+				createTable(bd, nomTabla2);												
+				select_ts(bd->ts, nomTabla1, nomColumnas, nomTabla2);
+			}
+			else{
+				return ERROR;
+			}
+		}else{
+			cout << nomTabla2 << " ya existe en la base de datos" << endl;
+			return ERROR;
+		}
+	}else{
+		cout << nomTabla1 << " no existe en la base de datos" << endl;
+		return ERROR;
+	}
+	return OK;
 }
 
 TipoRet join(bd &bd, char *nomTabla1, char *nomTabla2, char *nomTabla3)
@@ -200,7 +215,6 @@ TipoRet minus_(bd &bd, char *nombreTabla1, char *nombreTabla2, char *nombreTabla
 	return NO_IMPLEMENTADA;
 }
 
-/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 TipoRet printdatatable(bd bd, char *NombreTabla)
 {
 	// cout << " - printdatatable " << NombreTabla << endl;
@@ -217,7 +231,6 @@ TipoRet printdatatable(bd bd, char *NombreTabla)
 		return ERROR;
 	}
 }
-/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 
 TipoRet printTables(bd bd)
 {
@@ -232,13 +245,22 @@ TipoRet printTables(bd bd)
 
 }
 
-/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 TipoRet printMetadata(bd bd, char *nombreTabla)
 {
 	// cout << " - printMetadata " << nombreTabla << endl;
-	return NO_IMPLEMENTADA;
+	if(bd->ts != NULL){
+		if(nombreTabla_Tablas(bd->ts, nombreTabla)){
+			printMetadata_ts(bd->ts, nombreTabla);
+			return OK;
+		}else{	
+			cout << "Tabla no existente en la base de datos" << endl;
+			return ERROR;
+		}
+	}else{
+		cout << "No hay tablas para mostrar" << endl;
+		return ERROR;
+	}
 }
-/*---------------------------------------------PRIMERA ENTREGA--------------------------------------------*/
 
 TipoRet undo(bd &bd)
 {
