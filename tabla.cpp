@@ -88,7 +88,9 @@ void insertarDato_t(tabla &t, char *columnasTupla, char *valoresTupla){
 }
 
 void eliminarTupla_t(tabla &t, char *condicionEliminar){
-    eliminarTupla_col(t->col, condicionEliminar);
+    char *operador = new (char);
+    buscar_operador(operador, condicionEliminar);
+    eliminarTupla_col(t->col, condicionEliminar, operador);
 }
 
 bool eliminarTupla_valida_t(tabla t, char *condicionEliminar){
@@ -114,6 +116,10 @@ bool Columnas_pertenecen_T(tabla t, char *nomColumnas){
 
 void select_t(tabla T1, tabla &T2, char *nomColumnas){
     select(T1->col, T2->col, nomColumnas);
+}
+
+void selectwhere_t(tabla T1, tabla &T2, char *condicion){
+    selectwhere(T1->col, T2->col, condicion);
 }
 
 

@@ -27,7 +27,7 @@ int main()
 
 	do
 	{
-		/*cout << "\tcreateTable(nombreTabla)\n";
+		cout << "\tcreateTable(nombreTabla)\n";
 		cout << "\tdropTable(nombreTabla)\n";
 		cout << "\taddCol(nombreTabla, NombreCol, tipoCol, calificadorCol)\n";
 		cout << "\tdropCol(nombreTabla, NombreCol)\n";
@@ -47,7 +47,7 @@ int main()
 		cout << "\tundo()\n";
 		cout << "\tredo()\n";
 		cout << "\tsalir()\n\n";
-		cout << "> ";*/
+		cout << "> ";
 		fflush(stdin);
 		ejecutado = false;
 

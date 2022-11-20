@@ -83,4 +83,7 @@ void select_ts(tablas &ts, char *nomTabla1, char *nomColumnas, char *nomTabla2 )
 
 bool Columnas_pertenecen_TS(tablas ts, char *nomTabla1, char *nomColumnas);
 
+void selectwhere_ts(tablas &ts, char *nomTabla1, char *condicion, char *nomTabla2);
+
+
 #endif

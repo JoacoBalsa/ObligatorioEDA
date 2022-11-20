@@ -76,7 +76,7 @@ void Valor_dato_col(columna &col,int  pos, char *columnasTupla, char *valoresTup
 void imprimir_tuplasCol(columna col);
 // Imprime los datos de las columnas col.
 
-void eliminarTupla_col(columna &col, char *condicionEliminar);
+void eliminarTupla_col(columna &col, char *condicionEliminar, char *operador);
 // Elimina todas las tuplas de una tabla que cumplan con la condición pasada por parametro.
 
 void buscar_operador(char *operador, char *condicionEliminar);
@@ -98,5 +98,11 @@ void select(columna T1col, columna &T2col, char *nomColumnas);
 
 columna CopyCol(columna col1, columna col2);
 // Copia la columna 1 a la columna 2.
+
+void selectwhere(columna col1, columna &col2, char *condicion);
+
+void OperadorOpuesto(char *operador);
+// Cambia el operador a su opuesto si operador = < lo cambia a >.
+
 
 #endif

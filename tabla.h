@@ -59,4 +59,6 @@ bool Columnas_pertenecen_T(tabla t, char *nomColumnas);
 
 void select_t(tabla T1, tabla &T2, char *nomColumnas);
 
+void selectwhere_t(tabla T1, tabla &T2, char *condicion);
+
 #endif

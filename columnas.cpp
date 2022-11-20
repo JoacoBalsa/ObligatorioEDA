@@ -412,20 +412,20 @@ tipoDato tipo_dato(columna col){
     return col->tipoCol;
 }
 
-void eliminarTupla_col(columna &col, char *condicionEliminar){
-    char *nomCol = new(char), *operador = new(char), *valor = new(char), *aux = new char[strlen(condicionEliminar)+1];
+void eliminarTupla_col(columna &col, char *condicionEliminar, char *operador){
+    char *nomCol = new(char), *valor = new(char), *aux = new char[strlen(condicionEliminar)+1], *aux2 = new(char); 
     columna iter = col, borro;
     int pos;
     strcpy(aux, condicionEliminar);
-    buscar_operador(operador, condicionEliminar);
-    nomCol = strtok(aux, operador);
+    buscar_operador(aux2, condicionEliminar);
+    nomCol = strtok(aux, aux2);
     while(iter->ant != NULL)// Va hasta la primera columna. 
         iter = iter->ant;
     if(strcmp(operador, "#") != 0){
         while(strcmp(iter->nombreCol, nomCol) != 0)// Busca la columna con el dato a eliminar.
             iter = iter->sig;
     }
-    valor = strtok(NULL, operador);
+    valor = strtok(NULL, aux2);
     if(strcmp(operador, "#") != 0){
         pos = posicion_tupla(iter->d, valor, operador);
         while(pos != -1){
@@ -494,7 +494,7 @@ void printMetadata_col(columna col){
         iter = iter->ant;
     while(iter != NULL){
         cout << iter->nombreCol << " -> Tipo de Dato: ";
-            if(iter->tipoCol==0)
+            if(iter->tipoCol==1)
                 cout << "INTEGER";
             else
                 cout << "STRING";
@@ -531,6 +531,38 @@ void select(columna T1col, columna &T2col, char *nomColumnas){
         aux = strtok(NULL, ":");
     }
 
+}
+
+void selectwhere(columna col1, columna &col2, char *condicion){
+    char *operador = new(char), *aux = new char[strlen(condicion)+1], *column = new(char);
+    columna iter1 = col1;
+    strcpy(aux,condicion);
+    buscar_operador(operador, aux);
+    column = strtok(aux, operador);
+    while(iter1->ant != NULL)
+        iter1 = iter1->ant;
+    while(strcmp(iter1->nombreCol, column) != 0)
+        iter1 = iter1->sig;
+    col2 = CopyCol(iter1, col2);
+    if(strcmp(operador, "#") != 0){
+        cout << "Entro en el strcmp" << endl;
+        cout<< "Cambio: " << operador; 
+        OperadorOpuesto(operador); // Cambia operador por su opuesto
+        cout << " Por: " << operador << endl;
+        eliminarTupla_col(col2, condicion, operador);
+    }
+    
+}
+
+void OperadorOpuesto(char *operador){
+    if(strcmp(operador, ">") == 0)
+        strcpy(operador, "<");
+    else if(strcmp(operador, "<") == 0)
+        strcpy(operador, ">");
+    else if(strcmp(operador, "=") == 0)
+        strcpy(operador, "!");
+    else if(strcmp(operador, "!") == 0)
+        strcpy(operador, "=");
 }
 
 columna CopyCol(columna col1, columna col2){

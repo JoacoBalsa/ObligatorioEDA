@@ -218,3 +218,8 @@ bool Columnas_pertenecen_TS(tablas ts, char *nomTabla1, char *nomColumnas){
     tablas aux = buscar_tabla(ts, nomTabla1);
     return Columnas_pertenecen_T(aux->t, nomColumnas);
 }
+
+void selectwhere_ts(tablas &ts, char *nomTabla1, char *condicion, char *nomTabla2){
+    tablas T1 = buscar_tabla(ts, nomTabla1), T2 = buscar_tabla(ts, nomTabla2); // Busca la tabla T1 y T2 
+    selectwhere_t(T1->t, T2->t, condicion); // Pasa las tablas y la condicion al selectwhere_t
+}

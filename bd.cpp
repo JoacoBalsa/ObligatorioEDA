@@ -165,7 +165,28 @@ TipoRet update(bd &bd, char *nombreTabla, char *condicionModificar, char *column
 TipoRet selectWhere(bd &bd, char *nomTabla1, char *condicion, char *nomTabla2)
 {
 	// cout << " - selectWhere " << nomTabla1 << " " << condicion << " " << nomTabla2 << endl;
-	return NO_IMPLEMENTADA;
+	if(nombreTabla_Tablas(bd->ts, nomTabla1)){
+		char *operador = new(char), *columna = new(char), *aux = new char[strlen(condicion)+1];
+		strcpy(aux, condicion);
+		buscar_operador(operador, aux);
+		columna = strtok(aux, operador);
+		if(!nombreTabla_Tablas(bd->ts, nomTabla2)){						// Si no existe la tabla 2
+			if(Columnas_pertenecen_TS(bd->ts, nomTabla1, columna)){	// Si las columnas pertenecen a Tabla1
+				createTable(bd, nomTabla2);												
+				selectwhere_ts(bd->ts, nomTabla1, condicion, nomTabla2);
+			}
+			else{
+				return ERROR;
+			}
+		}else{
+			cout << nomTabla2 << " ya existe en la base de datos" << endl;
+			return ERROR;
+		}
+	}else{
+		cout << nomTabla1 << " no existe en la base de datos" << endl;
+		return ERROR;
+	}
+	return OK;
 }
 
 TipoRet select(bd &bd, char *nomTabla1, char *nomColumnas, char *nomTabla2)
