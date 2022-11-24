@@ -35,29 +35,26 @@ void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool Hay_valor){
             strcpy(var->caracter, valor);
         else
             strcpy(var->caracter, "EMPTY");
-    }
-    else{
+    }else{
         if(Hay_valor)
             var->entero = atoi(valor);
         else
             strcpy(var->caracter, "EMPTY");
     }
-    if (iter != NULL){
-        while(iter->arriba != NULL)
+    if (iter != NULL){                          // Si ya hay datos en la columna.
+        while(iter->arriba != NULL)             // Va hasta la primera tupla.
             iter = iter->arriba;
-        if(pos == 0){
+        if(pos == 0){                           // Caso insertar al principio.
             var->arriba = NULL;
             var->abajo = iter;
             iter->arriba = var;
-        }
-        else if(pos == cantDato(d)){
+        }else if(pos == cantDato(d)){            // Caso insertar al final.
             while(iter->abajo != NULL)
                 iter = iter->abajo;
             var->abajo = NULL;
             var->arriba = iter;
             iter->abajo = var;
-        }
-        else {
+        }else {                                  // Caso insertar en el medio.
             while(aux != pos){
                 aux++;
                 iter = iter->abajo;
@@ -67,8 +64,7 @@ void insertarDato(dato &d, tipoDato tipo, int pos, char *valor, bool Hay_valor){
             iter->arriba->abajo = var;
             iter->arriba = var;
         }
-    }
-    else{
+    }else{                                       // Si no hay datos en la columna.
         var->arriba = NULL;
         var->abajo = NULL;
         iter = var;
@@ -81,37 +77,33 @@ int insertarPK(dato &d, tipoDato tipo, char *valor){
     dato var = new (nodo_dato);
     var->tipo = tipo;
     int cont = 0;
-    if (tipo == STRING){
+    if (tipo == STRING)
         strcpy(var->caracter, valor);
-    }
-    else{
+    else
         var->entero = atoi(valor);
-    }
-    if (iter == NULL){
+    if (iter == NULL){              // Caso de que no haya datos.
         var->arriba = NULL;
         var->abajo = NULL;
         d = var;
         return 0;
     }
-    while(iter->arriba != NULL)
+    while(iter->arriba != NULL)     // Va hasta la primera tupla.
         iter = iter->arriba;
-    while(iter != NULL){
-        if(iter->entero > var->entero || (strcmp(iter->caracter, var->caracter)>0)|| iter->abajo == NULL){
+    while(iter != NULL){            // Recorre todas las tuplas
+        if(iter->entero > var->entero || (strcmp(iter->caracter, var->caracter) > 0)|| iter->abajo == NULL){ // Se fija que el valor de la tupla actual sea mayor que el valor que se pasa por parametro.
             if(iter->arriba == NULL && (iter->entero > var->entero || strcmp(iter->caracter, var->caracter)>0)){
                 var->arriba = NULL;
                 var->abajo = iter;
                 iter->arriba = var;
                 d = iter;
                 return cont;
-            }
-            else if(iter->abajo == NULL && (iter->entero < var->entero || strcmp(iter->caracter, var->caracter) < 0)){
+            }else if(iter->abajo == NULL && (iter->entero < var->entero || strcmp(iter->caracter, var->caracter) < 0)){  // Se fija que el valor de la tupla actual sea igual al valor que se pasa por parametro.
                 var->abajo = NULL;
                 var->arriba = iter;
                 iter->abajo = var;
                 d = iter;
                 return cont+1;
-            }
-            else if (iter->entero > var->entero || strcmp(iter->caracter, var->caracter)>0){
+            }else if (iter->entero > var->entero || strcmp(iter->caracter, var->caracter)>0){    // Se fija que el valor de la tupla actual sea menor que el valor que se pasa por parametro.
                 var->arriba = iter->arriba;
                 var->abajo = iter;
                 iter->arriba->abajo = var;
@@ -128,10 +120,10 @@ int insertarPK(dato &d, tipoDato tipo, char *valor){
 
 void imprimir_datos(dato d){
     dato iter = d;
-    while(iter->arriba != NULL){
+    while(iter->arriba != NULL){    // Va hasta la primera tupla.
         iter = iter->arriba;
     }
-    while(iter != NULL){
+    while(iter != NULL){            // Recorre las tuplas imprimiendo los datos.
         if(iter!= NULL)
             cout << iter->entero << endl;
         iter = iter->abajo;
@@ -140,14 +132,13 @@ void imprimir_datos(dato d){
 
 bool PK_repetida (dato d, tipoDato tipo, char *valor){
     dato iter = d;
-    while(iter->arriba != NULL)
+    while(iter->arriba != NULL)             // Va hasta la primera tupla.
         iter = iter->arriba;
-    while(iter != NULL){
+    while(iter != NULL){                    // Recorre las tuplas fijandose que el valor pasado por parametro no se repita.
         if(tipo == INT){
             if(iter->entero == atoi(valor))
                 return true;
-        }
-        else{
+        }else{
             if(strcmp(iter->caracter, valor) == 0)
                 return true;
         }
@@ -158,11 +149,11 @@ bool PK_repetida (dato d, tipoDato tipo, char *valor){
 
 int cantDato (dato d){
     int cant = 0;
-    if(d != NULL){
+    if(d != NULL){                      // Se fija que haya tuplas.
         dato iter = d;
-        while(iter->arriba != NULL)
+        while(iter->arriba != NULL)     // Va hasta la primera tupla.
             iter=iter->arriba;
-        while(iter != NULL){
+        while(iter != NULL){            // Recorre las tuplas contandolas.
             cant++;
             iter=iter->abajo;
         }
@@ -172,10 +163,10 @@ int cantDato (dato d){
 
 void imprimir_tuplas(dato d, int pos){
     dato iter = d;
-    while(iter->arriba != NULL){
+    while(iter->arriba != NULL){        // Va hasta la primera tupla.
         iter = iter->arriba;
     }
-    if(pos == 0){
+    if(pos == 0){                       // Caso esta al principio.
         if(iter->tipo == STRING || (strcmp(iter->caracter, "EMPTY") == 0))
             cout << iter->caracter;
         else 
@@ -196,10 +187,10 @@ void imprimir_tuplas(dato d, int pos){
 
 void deleteDatos(dato &d){
     dato iter = d, aux;
-    if(iter != NULL){
-        while(iter->abajo != NULL)
+    if(iter != NULL){                   // Se fija que haya tuplas.
+        while(iter->abajo != NULL)      // Va hasta la ultima tupla.
             iter = iter->abajo;
-        while(iter != NULL){
+        while(iter != NULL){            // Borra tuplas mientras haya.
             aux = iter;
             iter = iter->arriba;
             delete aux;
@@ -208,9 +199,9 @@ void deleteDatos(dato &d){
 }
 
 void eliminarTupla(dato &d, int pos){
-    if(d != NULL){
+    if(d != NULL){                      // Se fija que haya tuplas.
         dato iter = d, aux;
-        while(iter->arriba != NULL){
+        while(iter->arriba != NULL){    // Va hasta la primera tupla.
             iter = iter->arriba;
         }
         while(pos != 0){
@@ -220,18 +211,15 @@ void eliminarTupla(dato &d, int pos){
         if(iter->arriba == NULL && iter->abajo == NULL){ // Caso hay una sola tupla.
             aux = iter;
             iter = NULL;
-        }
-        else if(iter->arriba == NULL){ // Caso la tupla a eliminar es la primera.
+        }else if(iter->arriba == NULL){                  // Caso la tupla a eliminar es la primera.
             aux = iter;
             iter = iter->abajo;
             iter->arriba = NULL;
-        }
-        else if(iter->abajo == NULL){ // Caso la tupla a eliminar es la ultima.
+        }else if(iter->abajo == NULL){                   // Caso la tupla a eliminar es la ultima.
             aux = iter;
             iter = iter->arriba;
             iter->abajo = NULL;
-        }
-        else{ // Caso la tupla a eliminar esta en el medio.
+        }else{                                          // Caso la tupla a eliminar esta en el medio.
             aux = iter;
             iter->arriba->abajo = iter->abajo;
             iter->abajo->arriba = iter->arriba;
@@ -243,11 +231,11 @@ void eliminarTupla(dato &d, int pos){
 }
 
 int posicion_tupla(dato d, char *valor, char *operador){
-    if(d == NULL)
+    if(d == NULL)                   // Si no hay tuplas retorna -1.
         return -1;
     dato iter = d;
     int cont = 0;
-    while(iter->arriba != NULL){
+    while(iter->arriba != NULL){    // Va hasta la primera tupla.
         iter = iter->arriba;
     }
     if(strcmp(operador, ">") == 0){
@@ -260,8 +248,7 @@ int posicion_tupla(dato d, char *valor, char *operador){
                 return -1;
             else
                 return cont;
-        }
-        else{
+        }else{
             while(iter != NULL && (strcmp(iter->caracter, valor) <= 0)){
                 iter = iter->abajo;
                 cont++;
@@ -281,8 +268,7 @@ int posicion_tupla(dato d, char *valor, char *operador){
                 return -1;
             else
                 return cont;
-        }
-        else{
+        }else{
             while(iter != NULL && (strcmp(iter->caracter, valor) >= 0)){
                 iter = iter->abajo;
                 cont++;
@@ -302,8 +288,7 @@ int posicion_tupla(dato d, char *valor, char *operador){
                 return -1;
             else
                 return cont;
-        }
-        else{
+        }else{
             while(iter != NULL && (strcmp(iter->caracter, valor) == 0)){
                 iter = iter->abajo;
                 cont++;
@@ -324,8 +309,7 @@ int posicion_tupla(dato d, char *valor, char *operador){
                 return -1;
             else
                 return cont;
-        }
-        else{
+        }else{
             while(iter != NULL && (strcmp(iter->caracter, valor) != 0)){
                 iter = iter->abajo;
                 cont++;

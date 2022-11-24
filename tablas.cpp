@@ -30,8 +30,8 @@ TipoRet crearTablas(tablas &ts, char *nombreTabla){
         ts->izq = NULL;
         ts->der = NULL;
         crearTabla(ts->t, nombreTabla);
-    }else{
-        if(strcmp(nombreT(ts->t), nombreTabla) > 0){        //nombreTabla_Tablas(ts, nombreTabla) -> (condicion anterior)
+    }else{                                                  // Busca en el arbol donde colocar la tabla y en caso de ya existir
+        if(strcmp(nombreT(ts->t), nombreTabla) > 0){        // una con ese nombre retorna error.
             return crearTablas(ts->izq, nombreTabla);
         }else if(strcmp(nombreT(ts->t), nombreTabla) < 0){
             return crearTablas(ts->der, nombreTabla);
@@ -114,7 +114,6 @@ int max(int a, int b){
 }
 
 bool nombreTabla_Tablas(tablas ts, char *nombreTabla){
-// Retorna True si hay una tabla nombreTabla en ts
     if(ts == NULL)
         return false;
     else if(strcmp(nombreT(ts->t), nombreTabla) == 0)
@@ -125,14 +124,12 @@ bool nombreTabla_Tablas(tablas ts, char *nombreTabla){
         return nombreTabla_Tablas(ts->der, nombreTabla);
 }
 
-bool colRep_ts(tablas ts, char *nombreTabla, char *nombCol)
-{
+bool colRep_ts(tablas ts, char *nombreTabla, char *nombCol){
     tablas aux = buscar_tabla(ts, nombreTabla);
     return colRep_tabla(aux->t, nombCol);
 }
 
-TipoRet imprimirTablas(tablas ts)
-{
+TipoRet imprimirTablas(tablas ts){
     if(ts != NULL){
         imprimirTablas(ts->izq);
         char *nombre;
@@ -222,4 +219,31 @@ bool Columnas_pertenecen_TS(tablas ts, char *nomTabla1, char *nomColumnas){
 void selectwhere_ts(tablas &ts, char *nomTabla1, char *condicion, char *nomTabla2){
     tablas T1 = buscar_tabla(ts, nomTabla1), T2 = buscar_tabla(ts, nomTabla2); // Busca la tabla T1 y T2 
     selectwhere_t(T1->t, T2->t, condicion); // Pasa las tablas y la condicion al selectwhere_t
+}
+
+bool mismoEsquema(tablas ts, char *nombreTabla1, char *nombreTabla2){
+    if (cant_colTS(ts, nombreTabla1) == cant_colTS(ts, nombreTabla2))   //  Si tienen la misma cantidad de columnas pueden tener las mismas columnas
+        return mismoEsquemaT(ts->t, nombreTabla1, nombreTabla2);        //  Pasamanos
+    else
+        return false;
+}
+
+void union_ts(tablas &ts, char *nombreTabla1, char *nombreTabla2, char *nombreTabla3){
+    tablas aux1 = buscar_tabla(ts, nombreTabla1);
+    tablas aux2 = buscar_tabla(ts, nombreTabla2);
+    columnaInicialT(aux1->t);                       //  Muevo la columna hacia la columna inicial de aux1
+    columnaInicialT(aux2->t);                       //  Idem con aux2
+    while(hayColumnasT(aux1->t) && hayColumnasT(aux2->t)){        
+        if(nombreColumnaT(aux1->t) == nombreColumnaT(aux2->t)){
+            if(califColT(aux1->t) == califColT(aux2->t)){
+                if(tipColT(aux1->t) == tipColT(aux2->t)){
+                    // copiar columna a ts(nombreTabla3)->t->col
+                    avanzarColT(aux1->t);
+                    avanzarColT(aux2->t);
+                }
+        }
+    }
+
+    }
+    
 }

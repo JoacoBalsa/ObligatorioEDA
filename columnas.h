@@ -20,9 +20,6 @@ typedef struct nodo_columna *columna;
 columna addColumnaCol(columna col, char *NombreCol, char *tipoCol, CalCol calificador);
 //  Añade una columna vacia al final de la tabla. 
 
-char *nombreColumna(columna col);
-//  Retorna el nombre de columna.
-
 bool colRep(columna col, char *nombCol);
 //  Retorna true si la columna existe, false en caso contrario.
 
@@ -104,5 +101,23 @@ void selectwhere(columna col1, columna &col2, char *condicion);
 void OperadorOpuesto(char *operador);
 // Cambia el operador a su opuesto si operador = < lo cambia a >.
 
+char *nombreColumna(columna col);
+//  Retorna el nombre de columna.
+
+CalCol califCol(columna col);
+//  Retorna el calificador de la columna.
+
+tipoDato tipCol(columna col);
+//  Retorna el tipo de dato de la columna.
+
+columna columnaInicialCol (columna col);
+//  Mueve el puntero de la columna desde donde esta hacia el inicio de las columnas.
+//  Fin de pasamanos desde tablas.
+
+columna avanzarCol(columna col);
+//  Avanza la columna a la siguiente.
+
+bool hayColumnas(columna col);
+//  Retorna true si hay mas columnas, false en caso contrario.
 
 #endif

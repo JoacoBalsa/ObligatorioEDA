@@ -61,4 +61,24 @@ void select_t(tabla T1, tabla &T2, char *nomColumnas);
 
 void selectwhere_t(tabla T1, tabla &T2, char *condicion);
 
+bool mismoEsquemaT(tabla t,char *nombreTabla1, char *nombreTabla2);
+
+char *nombreColumnaT(tabla t);
+//  Pasamanos que retorna el nombre de la columna de la tabla.
+
+CalCol califColT(tabla t);
+//  Pasamanos que retorna el calificador de la columna de la tabla.
+
+tipoDato tipColT(tabla t);
+//  Pasamanos que retorna el tipo de dato de la columna de la tabla.
+
+tabla columnaInicialT(tabla &t);
+//  Pasamanos para mover la columna de la tabla t a la columna inicial.
+
+tabla avanzarColT(tabla &t);
+//  Pasamanos para avanzar una sola columna.
+
+bool hayColumnasT(tabla t);
+//  Retorna true si hay columnas en la tabla t, false en caso contrario (Usada para saber si llegue al final de columnas).
+
 #endif

@@ -80,10 +80,18 @@ void printMetadata_ts(tablas ts, char *nombreTabla);
 // Pasamanos para printMetadata.
 
 void select_ts(tablas &ts, char *nomTabla1, char *nomColumnas, char *nomTabla2 );
+// Pasamanos para select.
 
 bool Columnas_pertenecen_TS(tablas ts, char *nomTabla1, char *nomColumnas);
+// Pasamanos para columnas_pertenecen.
 
 void selectwhere_ts(tablas &ts, char *nomTabla1, char *condicion, char *nomTabla2);
+// Pasamanos para selectwhere
 
+void union_ts(tablas &ts, char *nombreTabla1, char *nombreTabla2, char *nombreTabla3);
+// Pasamanos para union.
+
+bool mismoEsquema(tablas ts, char *nombreTabla1, char *nombreTabla2);
+//  Compara si la tabla 1 y la tabla 2 contienen el mismo esquema.
 
 #endif

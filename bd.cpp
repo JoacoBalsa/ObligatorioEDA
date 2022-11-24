@@ -61,7 +61,6 @@ TipoRet addCol(bd &bd, char *nombreTabla, char *NombreCol, char *tipoCol, char *
 						cout << "Ya existe una columna con PRIMARY_KEY" << endl;
 						return ERROR;
 					}
-
 				}
 				else if (strcmp(calificadorCol, "NOT_EMPTY") == 0)
 				{
@@ -221,7 +220,23 @@ TipoRet join(bd &bd, char *nomTabla1, char *nomTabla2, char *nomTabla3)
 TipoRet union_(bd &bd, char *nombreTabla1, char *nombreTabla2, char *nombreTabla3)
 {
 	// cout << " - union_ " << nombreTabla1 << " " << nombreTabla2 << " " << nombreTabla3 << endl;
-	return NO_IMPLEMENTADA;
+	if(nombreTabla_Tablas(bd->ts, nombreTabla1) && nombreTabla_Tablas(bd->ts, nombreTabla2)){	
+		if(!nombreTabla_Tablas(bd->ts, nombreTabla3)){				//	Si la tabla nombreTabla3 no existe
+			if(mismoEsquema(bd->ts, nombreTabla1, nombreTabla2)){	//  Si las tablas 1 y 2 tienen el mismo esquema entro
+				createTable(bd, nombreTabla3);
+				union_ts(bd->ts, nombreTabla1, nombreTabla2, nombreTabla3);
+			}else{
+				cout << "Los esquemas de " << nombreTabla1 << " y " << nombreTabla2 << " no son iguales" << endl;
+				return ERROR;
+			}
+		}else{
+			cout << "La tabla de nombre "<< nombreTabla3 << " ya existe" << endl;
+			return ERROR;
+		}
+	}else{
+		cout << "Una de las tablas o las dos no se especifica/ron o no existe/n en la base de datos"<< endl;
+		return ERROR;
+	}
 }
 
 TipoRet intersec(bd &bd, char *nombreTabla1, char *nombreTabla2, char *nombreTabla3)

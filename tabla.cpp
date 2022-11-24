@@ -21,23 +21,19 @@ struct nodo_tabla
     columna col;
 };
 
-void crearTabla(tabla &t, char *nombre)
-{
-    if (t == NULL)
-    {
+void crearTabla(tabla &t, char *nombre){
+    if (t == NULL){
         t = new (nodo_tabla);
         strcpy(t->nom, nombre); 
         t->col = NULL;       
     }
 }
 
-bool colRep_tabla(tabla t, char *nombCol)
-{
+bool colRep_tabla(tabla t, char *nombCol){
     return colRep(t->col, nombCol);
 }
 
-char *nombreT(tabla t)
-{
+char *nombreT(tabla t){
     return t->nom;
 }
 
@@ -51,8 +47,7 @@ void printDataTable_t (tabla &t, char *NombreTabla){
     imprimir_tuplasCol(t->col);
 }
 
-bool ExistePK_t(tabla t)
-{
+bool ExistePK_t(tabla t){
     return existe_PK(t->col);
 }
 
@@ -69,15 +64,14 @@ void eliminarCol_t(tabla t, char *nombreCol){
 }
 
 bool Tupla_validaT(tabla &t, char *columnasTupla, char *valoresTupla){
-    if(t->col != NULL){
-        if(existe_PK(t->col))
+    if(t->col != NULL){         // Se fija si la tabla tiene columnas.
+        if(existe_PK(t->col))   
             return Tupla_valida(t->col, columnasTupla, valoresTupla);
         else{
             cout << t->nom << " No tiene ninguna columna PRIMARY_KEY" << endl;
             return false;
         }
-    }
-    else{
+    }else{
         cout << "No hay columnas en la tabla " << t->nom << endl;
         return false;
     }
@@ -122,4 +116,30 @@ void selectwhere_t(tabla T1, tabla &T2, char *condicion){
     selectwhere(T1->col, T2->col, condicion);
 }
 
+bool mismoEsquemaT(tabla t,char *nombreTabla){
+    
+}
 
+char *nombreColumnaT(tabla t){
+    return nombreColumna(t->col);
+}
+
+CalCol califColT(tabla t){
+    return califCol(t->col);    
+}
+
+tipoDato tipColT(tabla t){
+    return tipCol(t->col);
+}
+
+tabla columnaInicialT(tabla &t){
+    t->col = columnaInicialCol(t->col);
+}
+
+tabla avanzarColT(tabla &t){
+    t->col = avanzarCol(t->col);
+}
+
+bool hayColumnasT(tabla t){
+    return hayColumnas(t->col);
+}
